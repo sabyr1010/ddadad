@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIXX — Әр балаға — жеке әлем, әр сұраққа — жауап!</title>
+  <style>
+    :root {
+      /* LIGHT MODE (DEFAULT) */
+      --bg-main: #f6f4ff;
+      --bg-grad-top: #f2eeff;
+      --bg-grad-bot: #eef6ff;
+      --topbar-bg: rgba(255, 255, 255, 0.92);
+      --card-bg: #ffffff;
+      --soft-blue: #eaf4ff;
+      --soft-purple: #f3efff;
+      --soft-mint: #e8f8f1;
+      --soft-amber: #fff6e5;
+      --purple: #6342d8;
+      --purple-soft: #8568e8;
+      --blue: #2578bd;
+      --btn-grad: linear-gradient(135deg, #6342d8 0%, #2578bd 100%);
+      --btn-grad-hover: linear-gradient(135deg, #7455e6 0%, #3288cf 100%);
+      --mint: #16795a;
+      --amber: #b4690e;
+      --danger: #c53030;
+      --text: #172243;
+      --muted: #4b597d;
+      --border: #dadff2;
+      --shadow-card: 0 10px 28px rgba(74, 58, 168, 0.07);
+      --glow-accent: 0 0 0 rgba(155, 133, 255, 0);
+      --input-bg: #ffffff;
+      --font-scale: 1;
+      --radius: 18px;
+    }
+
+    body.dark-mode {
+      /* DARK MODE (SOFT DEEP NAVY) */
+      --bg-main: #202B45;
+      --bg-grad-top: #1c263e;
+      --bg-grad-bot: #24314f;
+      --topbar-bg: rgba(32, 43, 69, 0.92);
+      --card-bg: #2C3958;
+      --soft-blue: #243858;
+      --soft-purple: #33355c;
+      --soft-mint: #214247;
+      --soft-amber: #3e3844;
+      --purple: #9B85FF;
+      --purple-soft: #b2a0ff;
+      --blue: #72D5F5;
+      --btn-grad: linear-gradient(135deg, #866dff 0%, #46b5e5 100%);
+      --btn-grad-hover: linear-gradient(135deg, #9B85FF 0%, #72D5F5 100%);
+      --mint: #5ce1b8;
+      --amber: #fbbf24;
+      --danger: #fc8181;
+      --text: #F1F5FF;
+      --muted: #BAC6E2;
+      --border: #3E4E75;
+      --shadow-card: 0 12px 30px rgba(11, 17, 32, 0.34), 0 0 18px rgba(155, 133, 255, 0.08);
+      --glow-accent: 0 0 22px rgba(155, 133, 255, 0.25);
+      --input-bg: #232F4B;
+    }
+
+    body.age-young {
+      --radius: 26px;
+    }
+
+    body.age-teen {
+      --radius: 14px;
+    }
+
+    body.high-contrast {
+      --bg-main: #ffffff;
+      --bg-grad-top: #ffffff;
+      --bg-grad-bot: #ffffff;
+      --topbar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --soft-blue: #e0f2fe;
+      --soft-purple: #ede9fe;
+      --soft-mint: #dcfce7;
+      --soft-amber: #fef3c7;
+      --purple: #2e0652;
+      --purple-soft: #4c1d95;
+      --blue: #064e78;
+      --btn-grad: linear-gradient(135deg, #2e0652, #064e78);
+      --text: #000000;
+      --muted: #111827;
+      --border: #000000;
+      --input-bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+      font-size: calc(16px * var(--font-scale));
+      line-height: 1.6;
+      color: var(--text);
+      background: linear-gradient(160deg, var(--bg-grad-top) 0%, var(--bg-main) 50%, var(--bg-grad-bot) 100%);
+      min-height: 100vh;
+      transition: background 0.35s ease, color 0.32s ease;
+    }
+
+    .topbar, .panel, .feature-card, .lesson-card, .btn, input, select, textarea, .ai-drawer, .ai-messages, .ai-quick, .ai-input-bar, .stage-node, .order-item, .chip, .msg.bot {
+      transition: background-color 0.32s ease, background 0.32s ease, color 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease, transform 0.15s ease;
+    }
+
+    button, select, input, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: var(--topbar-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--border);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .brand-badge {
+      background: var(--btn-grad);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.15em;
+      padding: 8px 16px;
+      border-radius: 14px;
+      letter-spacing: 0.06em;
+      box-shadow: var(--glow-accent);
+    }
+
+    .sub-caption {
+      font-size: 0.8em;
+      color: var(--muted);
+    }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 13px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: var(--soft-purple);
+      border-color: var(--purple);
+      transform: translateY(-1px);
+    }
+
+    .btn.active, .btn.primary {
+      background: var(--btn-grad);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: var(--glow-accent);
+    }
+
+    body.dark-mode .btn.active, body.dark-mode .btn.primary {
+      color: #131b30;
+      font-weight: 700;
+    }
+
+    .btn.primary:hover {
+      background: var(--btn-grad-hover);
+    }
+
+    .btn.soft-blue-btn {
+      background: var(--soft-blue);
+      border-color: var(--border);
+    }
+
+    .btn.soft-blue-btn.active {
+      background: var(--blue);
+      color: #131b30;
+      border-color: var(--blue);
+    }
+
+    .btn.mint {
+      background: var(--soft-mint);
+      color: var(--mint);
+      border-color: var(--border);
+    }
+
+    .btn.danger {
+      background: rgba(229, 62, 62, 0.12);
+      color: var(--danger);
+      border-color: rgba(229, 62, 62, 0.35);
+    }
+
+    .btn.sm {
+      padding: 5px 10px;
+      font-size: 0.88em;
+    }
+
+    /* THEME SWITCH PILL */
+    .theme-switch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--soft-purple);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.88em;
+      color: var(--text);
+    }
+
+    .theme-switch-btn:hover {
+      border-color: var(--purple);
+      box-shadow: var(--glow-accent);
+    }
+
+    .theme-icon-spin {
+      display: inline-block;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    body.dark-mode .theme-icon-spin {
+      transform: rotate(360deg);
+    }
+
+    /* CONTAINER & VIEWS */
+    .container {
+      max-width: 1320px;
+      margin: 20px auto 90px;
+      padding: 0 16px;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; animation: fadeIn 0.24s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 18px;
+    }
+
+    body.high-contrast .panel {
+      box-shadow: none;
+      border-width: 2px;
+    }
+
+    h1, h2, h3, h4 {
+      margin-top: 0;
+      color: var(--purple);
+    }
+
+    body.high-contrast h1, body.high-contrast h2, body.high-contrast h3 { color: #000000; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .study-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr 295px;
+      gap: 18px;
+    }
+
+    @media (max-width: 1024px) {
+      .study-layout, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* HERO & CARDS */
+    .hero {
+      background: linear-gradient(125deg, #6342d8 0%, #2578bd 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 26px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+    }
+
+    body.dark-mode .hero {
+      background: linear-gradient(125deg, #3c3472 0%, #244b74 100%);
+      border: 1.5px solid var(--border);
+      box-shadow: 0 14px 34px rgba(10, 16, 30, 0.45), 0 0 28px rgba(155, 133, 255, 0.16);
+    }
+
+    .hero h1 { color: #ffffff; margin-bottom: 6px; font-size: 1.65em; }
+    .hero p { margin: 0; opacity: 0.94; }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .feature-card:nth-child(2n) {
+      background: linear-gradient(180deg, var(--card-bg) 0%, var(--soft-blue) 100%);
+    }
+
+    .feature-card:nth-child(3n) {
+      background: linear-gradient(180deg, var(--card-bg) 0%, var(--soft-purple) 100%);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--purple);
+      box-shadow: var(--shadow-card), var(--glow-accent);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.82em;
+      font-weight: 700;
+      background: var(--soft-purple);
+      color: var(--purple);
+    }
+
+    .badge.blue { background: var(--soft-blue); color: var(--blue); }
+    .badge.mint { background: var(--soft-mint); color: var(--mint); }
+    .badge.amber { background: var(--soft-amber); color: var(--amber); }
+
+    input[type="text"], input[type="email"], input[type="password"], select, textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: var(--input-bg);
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    textarea { min-height: 90px; resize: vertical; }
+
+    .form-group { margin-bottom: 13px; }
+    .form-group label { font-weight: 600; font-size: 0.92em; display: block; }
+
+    /* STUDY MODULE */
+    .topic-item {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 8px;
+      padding: 11px 14px;
+    }
+
+    .modes-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 16px;
+    }
+
+    .helper-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: var(--soft-blue);
+      border-radius: 14px;
+      padding: 11px 14px;
+      margin-bottom: 16px;
+    }
+
+    .second-chance-box {
+      display: none;
+      background: linear-gradient(95deg, var(--soft-purple), var(--soft-blue));
+      border: 1.5px solid var(--purple);
+      border-radius: 14px;
+      padding: 13px 16px;
+      margin-bottom: 16px;
+    }
+    .second-chance-box.show { display: block; }
+
+    .lesson-card {
+      background: var(--bg-main);
+      border-left: 4px solid var(--purple);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .choice-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 8px 0;
+      padding: 12px 15px;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 12px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .notice.show { display: block; }
+    .notice.good { background: var(--soft-mint); color: var(--mint); }
+    .notice.gentle { background: var(--soft-purple); color: var(--text); border: 1px solid var(--purple); }
+
+    .progress-row { margin-bottom: 12px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 5px; }
+    .track { height: 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; background: var(--btn-grad); width: 0%; transition: width 0.35s ease; }
+
+    /* GAME WORLD */
+    .stage-map {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+
+    .stage-node {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-main);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .stage-node.unlocked { border-color: var(--blue); background: var(--soft-blue); }
+    .stage-node.current { border-color: var(--purple); background: var(--soft-purple); font-weight: 700; box-shadow: var(--glow-accent); }
+    .stage-node.completed { border-color: var(--mint); background: var(--soft-mint); }
+    .stage-node.locked { opacity: 0.55; cursor: not-allowed; }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    /* CHIP TAGS */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--card-bg);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    .chip.selected {
+      background: var(--btn-grad);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    body.dark-mode .chip.selected {
+      color: #131b30;
+    }
+
+    /* FLOATING AI WIDGET */
+    .ai-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 60;
+      background: var(--btn-grad);
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(99, 66, 216, 0.35), var(--glow-accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body.dark-mode .ai-fab {
+      color: #131b30;
+    }
+
+    .ai-drawer {
+      position: fixed;
+      right: 20px;
+      bottom: 80px;
+      width: min(420px, calc(100vw - 32px));
+      max-height: 78vh;
+      background: var(--card-bg);
+      border: 2px solid var(--purple);
+      border-radius: 20px;
+      box-shadow: 0 18px 44px rgba(10, 16, 32, 0.35), var(--glow-accent);
+      z-index: 65;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-drawer.open { display: flex; }
+
+    .ai-head {
+      background: var(--btn-grad);
+      color: #ffffff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    body.dark-mode .ai-head {
+      color: #131b30;
+    }
+
+    .ai-messages {
+      padding: 14px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--bg-main);
+    }
+
+    .msg {
+      padding: 10px 13px;
+      border-radius: 14px;
+      max-width: 88%;
+      font-size: 0.94em;
+      white-space: pre-wrap;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--btn-grad);
+      color: #ffffff;
+    }
+
+    body.dark-mode .msg.user {
+      color: #131b30;
+      font-weight: 600;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+
+    .ai-quick {
+      padding: 8px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      border-top: 1px solid var(--border);
+      background: var(--card-bg);
+    }
+
+    .ai-input-bar {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92em;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px 10px;
+      text-align: left;
+    }
+
+    th { background: var(--soft-purple); }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-wrap" onclick="switchView('home')">
+        <span class="brand-badge">MIXX</span>
+        <div>
+          <strong>MIXX WORLD</strong>
+          <div class="sub-caption" data-i18n="slogan">Әр балаға — жеке әлем, әр сұраққа — жауап!</div>
+        </div>
+      </div>
+
+      <nav class="nav-pills" aria-label="Негізгі мәзір">
+        <button class="btn sm nav-btn active" data-view="home" data-i18n="navHome">Басты бет</button>
+        <button class="btn sm nav-btn" data-view="study" data-i18n="navStudy">Сабырлы оқу</button>
+        <button class="btn sm nav-btn" data-view="game" data-i18n="navGame">Ойын әлемі</button>
+        <button class="btn sm nav-btn" data-view="studio" data-i18n="navStudio">Шығармашылық</button>
+        <button class="btn sm nav-btn" data-view="langLearn" data-i18n="navLang">Тіл үйрену</button>
+        <button class="btn sm nav-btn" data-view="interests" data-i18n="navInterests">Қызығушылықтар</button>
+        <button class="btn sm nav-btn" data-view="cabinet" data-i18n="navCabinet">Жеке кабинет</button>
+      </nav>
+
+      <div class="toolbar">
+        <button class="theme-switch-btn" id="themeToggleBtn" type="button" onclick="toggleThemeMode()" aria-label="Light / Dark режим">
+          <span class="theme-icon-spin" id="themeIcon">☀️</span>
+          <span id="themeLabel">Light</span>
+        </button>
+        <button class="btn sm" id="fontDec" type="button" title="Әріпті кішірейту">А-</button>
+        <button class="btn sm" id="fontInc" type="button" title="Әріпті үлкейту">А+</button>
+        <button class="btn sm soft-blue-btn" id="contrastToggle" type="button" data-i18n="contrast">Анық көрініс</button>
+        <select id="langSelect" aria-label="Тіл таңдау" style="width:auto; margin:0; padding:6px 10px;">
+          <option value="kk">🇰🇿 Қазақша</option>
+          <option value="ru">🇷🇺 Русский</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 1. HOME VIEW -->
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <div>
+          <h1 id="welcomeHeading">Сәлем, Жас Зерттеуші! Бүгін қандай жаңалық ашамыз?</h1>
+          <p data-i18n="heroSub">Жас санатыңа, қарқыныңа және қызығушылығыңа бейімделген білім, ойын және шығармашылық кеңістігі.</p>
+          <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
+            <span class="badge" id="homeAgeBadge">Жас: 10–13</span>
+            <span class="badge blue" id="homeComfortBadge">Үйлесімді тәсіл: Қадамдар</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button class="btn" style="background:#ffffff; color:#172243;" onclick="switchView('cabinet')" data-i18n="btnAuth">Тіркелу / Профиль</button>
+          <button class="btn" style="background:rgba(255,255,255,0.18); color:#ffffff; border-color:#ffffff;" onclick="toggleAiDrawer(true)" data-i18n="btnOpenAi">🤖 AI Көмекші 24/7</button>
+        </div>
+      </div>
+
+      <!-- DAILY MISSION -->
+      <div class="panel" style="border-left:5px solid var(--mint);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <span class="badge mint" data-i18n="missionTag">🌟 Бүгінгі миссия</span>
+            <h3 style="margin:8px 0 4px;" id="missionTitle">Тапсырма жүктелуде...</h3>
+            <p style="margin:0; color:var(--muted);" id="missionDesc"></p>
+          </div>
+          <div id="missionActionArea"></div>
+        </div>
+        <div id="missionCompleteBox" style="display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+          <input type="text" id="missionNoteInput" placeholder="Қысқаша не істегеніңді жаз (міндетті емес)..." />
+          <div style="margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="file" id="missionPhotoInput" accept="image/*" style="width:auto;" />
+            <button class="btn primary sm" onclick="completeDailyMission()" data-i18n="btnDone">Орындалды (+1 жапырақ 🌿)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK AI BAR ON HOME -->
+      <div class="panel">
+        <h3 data-i18n="quickAiTitle">🤖 AI Көмекшіге жылдам сұрақ</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <input type="text" id="homeAiInput" style="flex:1; min-width:220px; margin:0;" placeholder="Кез келген сұрақ жаз: есеп, ертегі, ғарыш, ереже..." />
+          <button class="btn primary" onclick="sendFromHomeAi()" data-i18n="btnAsk">Сұрау</button>
+          <button class="btn" onclick="toggleAiDrawer(true); startVoiceInput();">🎤</button>
+          <button class="btn" onclick="toggleAiDrawer(true); document.getElementById('aiImageInput').click();">📷</button>
+        </div>
+      </div>
+
+      <!-- MAIN BLOCKS GRID -->
+      <div class="grid-3">
+        <div class="feature-card">
+          <div>
+            <span class="badge">📚 Бейімделмелі оқу</span>
+            <h3 style="margin-top:8px;" data-i18n="cardStudyTitle">Сабырлы оқу кеңістігі</h3>
+            <p data-i18n="cardStudyDesc">5 түрлі түсіндіру тәсілі (Мәтін, Сызба, Дыбыс, Қадамдар, Байқап көру) және «Екінші мүмкіндік».</p>
+          </div>
+          <button class="btn primary" onclick="switchView('study')" data-i18n="btnOpen">Ашу</button>
+        </div>
+
+        <div class="feature-card">
+          <div>
+            <span class="badge blue">🎮 5 кезеңдік әлем</span>
+            <h3 style="margin-top:8px;" data-i18n="cardGameTitle">AI Game World</h3>
+            <p data-i18n="cardGameDesc">Кез келген тақырып бойынша 5 кезеңдік оқиғалы ойын құрастыр: Аралдар, Ғарыш, Сарай, Қазына, Уақыт машинасы.</p>
+          </div>
+          <button class="btn primary" onclick="switchView('game')" data-i18n="btnBuildGame">Ойын құрастыру</button>
+        </div>
+
+        <div class="feature-card">
+          <div>
+            <span class="badge amber">🎨 Қиял шеберханасы</span>
+            <h3 style="margin-top:8px;" data-i18n="cardStudioTitle">Шығармашылық студия</h3>
+            <p data-i18n="cardStudioDesc">AI сурет идеясы, ертегі құрастыру, өлең мен әңгіме, комикс және идеялар генераторы.</p>
+          </div>
+          <button class="btn primary" onclick="switchView('studio')" data-i18n="btnCreate">Шығармашылыққа өту</button>
+        </div>
+
+        <div class="feature-card">
+          <div>
+            <span class="badge mint">🗣️ 3 тілде сөйле</span>
+            <h3 style="margin-top:8px;" data-i18n="cardLangTitle">Тіл үйрену бөлімі</h3>
+            <p data-i18n="cardLangDesc">Қазақ, орыс және ағылшын тілдерінде жаңа сөздер, айтылуы, сәйкестендіру және AI диалог.</p>
+          </div>
+          <button class="btn" onclick="switchView('langLearn')" data-i18n="btnLearnLang">Тіл үйрену</button>
+        </div>
+
+        <div class="feature-card">
+          <div>
+            <span class="badge">🔭 Жеке бағыт</span>
+            <h3 style="margin-top:8px;" data-i18n="cardIntTitle">Менің қызығушылық әлемім</h3>
+            <p data-i18n="cardIntDesc">Ғарыш, робототехника, өнер, спорт немесе ғылым — таңдауыңа сай AI ұсыныстар береді.</p>
+          </div>
+          <button class="btn" onclick="switchView('interests')" data-i18n="btnChooseInt">Қызығушылықтар</button>
+        </div>
+
+        <div class="feature-card">
+          <div>
+            <span class="badge mint">🌳 Өсу картасы</span>
+            <h3 style="margin-top:8px;" data-i18n="cardTreeTitle">Жеке даму картасы</h3>
+            <p data-i18n="cardTreeDesc">Салыстырусыз, тек сенің жеке жетістіктерің мен өсіп келе жатқан «Даму ағашың».</p>
+          </div>
+          <button class="btn" onclick="switchView('cabinet')" data-i18n="btnSeeMap">Картаны көру</button>
+        </div>
+      </div>
+
+      <!-- SOS / SUPPORT BANNER -->
+      <div class="panel" style="background:var(--soft-purple); border-color:var(--purple); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
+        <div>
+          <strong>💜 Қолдау және қауіпсіздік (SOS)</strong>
+          <div style="font-size:0.92em;">Қиын жағдай болса немесе ішіңдегі ойыңды жазғың келсе — «Менің жағдайым» бөлімі әрқашан құпия әрі қауіпсіз.</div>
+        </div>
+        <button class="btn" onclick="switchView('cabinet'); openCabinetTab('situation');">Құпия жазба / Көмек</button>
+      </div>
+    </section>
+
+    <!-- 2. STUDY VIEW (EXISTING CODE INTEGRATED & PRESERVED) -->
+    <section class="view" id="view-study">
+      <div class="study-layout">
+        <aside class="panel" aria-label="Тақырыптар">
+          <h3>Тақырыптар</h3>
+          <div id="topicsContainer"></div>
+          <button class="btn" id="teacherBtn" type="button" style="width:100%; margin-top:8px;" aria-expanded="false">👩‍🏫 Мұғалімге шолу</button>
+          <div style="font-size:0.84em; color:var(--muted); margin-top:10px;">
+            🔒 Жазбалар осы құрылғыда сақталады. Дәрігерлік диагноз қойылмайды.
+          </div>
+        </aside>
+
+        <section class="panel" aria-live="polite">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <h2 id="lessonTitle">Тақырып</h2>
+            <span id="comfortTag" class="badge blue"></span>
+          </div>
+
+          <div class="helper-bar">
+            <label for="readingPace"><strong>Мәтін қарқыны:</strong></label>
+            <select id="readingPace" style="width:auto; margin:0;">
+              <option value="simple">Жеңіл әрі қысқа</option>
+              <option value="standard" selected>Түсінікті толық</option>
+              <option value="deep">Толығырақ</option>
+            </select>
+            <button class="btn" id="secondChanceTrigger" type="button">🌿 Екінші мүмкіндік (басқа жолмен)</button>
+            <button class="btn" id="readAloud" type="button">🔊 Дауыстап оқу</button>
+          </div>
+
+          <div class="modes-strip" role="tablist" aria-label="Түсіндіру тәсілдері">
+            <button class="btn mode-btn" data-mode="text" type="button">1. Мәтін</button>
+            <button class="btn mode-btn" data-mode="visual" type="button">2. Сурет / Сызба</button>
+            <button class="btn mode-btn" data-mode="audio" type="button">3. Дыбыс</button>
+            <button class="btn mode-btn" data-mode="steps" type="button">4. Қадамдар</button>
+            <button class="btn mode-btn" data-mode="practice" type="button">5. Байқап көру</button>
+          </div>
+
+          <div class="second-chance-box" id="secondChanceBox">
+            <strong>🌿 Басқа жолмен қарайық:</strong> Сұрақты құр қайталамай, басқа түсіндіру тәсіліне ауыстық. Асықпай көріңіз.
+          </div>
+
+          <div class="lesson-card" id="lessonBody"></div>
+
+          <div>
+            <h3>Өзіңді тексер</h3>
+            <p id="questionText"></p>
+            <div id="choicesContainer"></div>
+            <div class="notice" id="feedbackBox"></div>
+          </div>
+        </section>
+
+        <aside class="panel" aria-label="Ыңғайлы тәсілдер">
+          <h3>Ыңғайлы тәсілдер</h3>
+          <p style="font-size:0.88em; color:var(--muted);">Қай тәсіл сізге жақынырақ екенін көрсетеді:</p>
+          <div id="metersContainer"></div>
+          <div style="font-size:0.85em; color:var(--muted); margin-top:10px;" id="summaryLine"></div>
+        </aside>
+      </div>
+
+      <div class="panel" id="teacherSection" style="display:none;">
+        <h2>👩‍🏫 Мұғалімге арналған шолу</h2>
+        <p style="color:var(--muted); margin-top:-4px;">Оқушыға қай тәсілдің жақсы келетіні және «Екінші мүмкіндік» қанша рет қажет болғаны.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Оқушы</th>
+              <th>Аяқталған қадам</th>
+              <th>Басқа жолға өту</th>
+              <th>Жиі үйлесетін тәсіл</th>
+            </tr>
+          </thead>
+          <tbody id="teacherRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. AI GAME WORLD (5 STAGES) -->
+    <section class="view" id="view-game">
+      <div class="panel">
+        <h2>🎮 AI Game World — Бес кезеңдік интерактивті ойын</h2>
+        <p style="color:var(--muted);">Тақырып пен шаблонды таңда — жүйе 5 кезеңнен тұратын әртүрлі тапсырмалы оқиға құрастырады.</p>
+
+        <div class="grid-4">
+          <div class="form-group">
+            <label>Тақырып (жаз немесе таңда)</label>
+            <input type="text" id="gameTopicInput" value="Ғарыш және ғаламшарлар" placeholder="Мысалы: Ғарыш, Жануарлар, Тарих, Математика" />
+          </div>
+          <div class="form-group">
+            <label>Ойын шаблоны</label>
+            <select id="gameTemplateSelect">
+              <option value="space">🚀 Ғарыш экспедициясы (5 ғаламшар)</option>
+              <option value="islands">🏝️ Аралдар саяхаты (5 арал)</option>
+              <option value="castle">🏰 Құпия сарай (5 бөлме)</option>
+              <option value="treasure">🗺️ Қазына іздеу (5 жұмбақ)</option>
+              <option value="time">⏳ Уақыт машинасы (5 дәуір)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Қиындық деңгейі</label>
+            <select id="gameDiffSelect">
+              <option value="easy">Оңай</option>
+              <option value="medium" selected>Орташа</option>
+              <option value="hard">Қиын</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Жас санаты</label>
+            <select id="gameAgeSelect">
+              <option value="6-9">6–9 жас</option>
+              <option value="10-13" selected>10–13 жас</option>
+              <option value="14-17">14–17 жас</option>
+              <option value="18+">18+ жас</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn primary" onclick="buildFiveStageGame()">✨ Ойынды құрастыру</button>
+      </div>
+
+      <div class="panel" id="activeGamePanel"></div>
+    </section>
+
+    <!-- 4. CREATIVE STUDIO -->
+    <section class="view" id="view-studio">
+      <div class="panel">
+        <h2>🎨 Шығармашылық студия</h2>
+        <div class="modes-strip">
+          <button class="btn studio-tab active" data-stab="art" onclick="switchStudioTab('art')">🖼️ AI сурет идеясы</button>
+          <button class="btn studio-tab" data-stab="fairy" onclick="switchStudioTab('fairy')">📖 Ертегі құрастыру</button>
+          <button class="btn studio-tab" data-stab="poem" onclick="switchStudioTab('poem')">✍️ Өлең / Әңгіме</button>
+          <button class="btn studio-tab" data-stab="comic" onclick="switchStudioTab('comic')">💬 Комикс</button>
+          <button class="btn studio-tab" data-stab="ideas" onclick="switchStudioTab('ideas')">💡 Идеялар генераторы</button>
+        </div>
+
+        <!-- ART -->
+        <div class="studio-pane" id="studio-art">
+          <div class="form-group">
+            <label>Қандай сурет салғың келеді?</label>
+            <input type="text" id="artPromptInput" placeholder="Мысалы: Ғарыштағы достасқан жануарлар мен кемпірқосақ" />
+          </div>
+          <button class="btn primary" onclick="generateArtConcept()">🎨 Эскиз және сипаттама жасау</button>
+          <div id="artResult" style="margin-top:14px;"></div>
+        </div>
+
+        <!-- FAIRY TALE -->
+        <div class="studio-pane" id="studio-fairy" style="display:none;">
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Тақырыбы</label>
+              <input type="text" id="fairyTopic" value="Достық пен батылдық" />
+            </div>
+            <div class="form-group">
+              <label>Кейіпкерлер</label>
+              <input type="text" id="fairyChars" value="Ақылды түлкі және кішкентай робот" />
+            </div>
+            <div class="form-group">
+              <label>Оқиға орны</label>
+              <input type="text" id="fairyPlace" value="Жұлдызды орман" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Ұзындығы</label>
+            <select id="fairyLen" style="max-width:240px;">
+              <option value="short">Қысқа (1 минут)</option>
+              <option value="medium" selected>Орташа</option>
+              <option value="long">Толық ертегі</option>
+            </select>
+          </div>
+          <button class="btn primary" onclick="generateFairyTale()">📖 Ертегі құрастыру</button>
+        </div>
+
+        <!-- POEM / STORY -->
+        <div class="studio-pane" id="studio-poem" style="display:none;">
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Жанр</label>
+              <select id="poemGenre">
+                <option value="poem">Өлең шумақтары</option>
+                <option value="story">Шағын әңгіме</option>
+                <option value="script">Сахналық сценарий</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Тақырып</label>
+              <input type="text" id="poemTopic" value="Туған жер және арман" />
+            </div>
+          </div>
+          <button class="btn primary" onclick="generatePoemOrStory()">✍️ Мәтін дайындау</button>
+        </div>
+
+        <!-- COMIC -->
+        <div class="studio-pane" id="studio-comic" style="display:none;">
+          <div class="form-group">
+            <label>Комикс тақырыбы</label>
+            <input type="text" id="comicTopic" value="Мектептегі ғажайып зертхана" />
+          </div>
+          <button class="btn primary" onclick="generateComic()">💬 4 көріністі комикс құрастыру</button>
+        </div>
+
+        <!-- IDEAS -->
+        <div class="studio-pane" id="studio-ideas" style="display:none;">
+          <button class="btn primary" onclick="generateRandomIdeas()">💡 Не жасасам болады?</button>
+          <div id="ideasResult" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- EDITOR & SAVE WORK -->
+        <div id="studioEditorWrap" style="display:none; margin-top:16px; padding-top:16px; border-top:1.5px solid var(--border);">
+          <label><strong>Шығарманы өңдеу және сақтау:</strong></label>
+          <input type="text" id="workTitleInput" placeholder="Жұмыс атауы" style="margin-bottom:8px;" />
+          <textarea id="workContentArea"></textarea>
+          <div style="margin-top:8px; display:flex; gap:8px;">
+            <button class="btn primary" onclick="saveCreativeWork()">💾 Қоржынға сақтау</button>
+            <button class="btn" onclick="speakString(document.getElementById('workContentArea').value)">🔊 Тыңдау</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>🗂️ Менің шығармашылық қоржыным</h3>
+        <div id="portfolioList"></div>
+      </div>
+    </section>
+
+    <!-- 5. LANGUAGE LEARNING -->
+    <section class="view" id="view-langLearn">
+      <div class="panel">
+        <h2>🗣️ Тіл үйрену бөлімі</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px;">
+          <label><strong>Үйренетін тіл:</strong></label>
+          <select id="learnLangTarget" style="width:auto; margin:0;" onchange="renderLanguageLesson()">
+            <option value="en">🇬🇧 English (Ағылшын тілі)</option>
+            <option value="kk">🇰🇿 Қазақ тілі</option>
+            <option value="ru">🇷🇺 Русский язык</option>
+          </select>
+          <span class="badge mint" id="wordsLearnedBadge">Үйренген сөздер: 0</span>
+        </div>
+
+        <div id="langCardsContainer" class="grid-3"></div>
+
+        <div class="lesson-card" style="margin-top:16px;">
+          <h4>🎯 Сөзді сәйкестендіру және сөйлем құрастыру</h4>
+          <p id="langQuizPrompt"></p>
+          <div id="langQuizOptions" class="modes-strip"></div>
+          <div class="notice" id="langQuizFeedback"></div>
+        </div>
+
+        <div class="lesson-card">
+          <h4>💬 AI-мен шағын диалог жаттығуы</h4>
+          <p id="langDialogPrompt" style="font-weight:600;"></p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="text" id="langDialogInput" style="flex:1; margin:0;" placeholder="Жауабыңды жаз..." />
+            <button class="btn primary" onclick="checkLangDialog()">Тексеру</button>
+          </div>
+          <div class="notice" id="langDialogFeedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. MY INTERESTS WORLD -->
+    <section class="view" id="view-interests">
+      <div class="panel">
+        <h2>🔭 Менің қызығушылық әлемім</h2>
+        <p style="color:var(--muted);">Өзіңе ұнайтын бағыттарды таңда — AI саған жеке танымдық деректер, ойындар мен тәжірибелер ұсынады:</p>
+        <div class="chips" id="interestChips"></div>
+      </div>
+      <div class="grid-2" id="interestFeed"></div>
+    </section>
+
+    <!-- 7. CABINET + GROWTH MAP + PERSONAL SITUATION -->
+    <section class="view" id="view-cabinet">
+      <div class="panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <h2>👤 Жеке кабинет және Даму картасы</h2>
+          <div class="modes-strip" style="margin:0;">
+            <button class="btn sm cab-tab active" data-ctab="profile" onclick="openCabinetTab('profile')">Профиль / Тіркелу</button>
+            <button class="btn sm cab-tab" data-ctab="map" onclick="openCabinetTab('map')">🌳 Даму картасы</button>
+            <button class="btn sm cab-tab" data-ctab="situation" onclick="openCabinetTab('situation')">💜 Менің жағдайым</button>
+            <button class="btn sm cab-tab" data-ctab="privacy" onclick="openCabinetTab('privacy')">🔒 Құпиялық / API</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PROFILE -->
+      <div class="cab-pane" id="cab-profile">
+        <div class="panel">
+          <h3>Тіркелу және профиль баптаулары</h3>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Лақап ат немесе есім</label>
+              <input type="text" id="profName" placeholder="Мысалы: Арман" />
+            </div>
+            <div class="form-group">
+              <label>Электрондық пошта</label>
+              <input type="email" id="profEmail" placeholder="name@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Құпиясөз</label>
+              <input type="password" id="profPass" placeholder="••••••••" />
+            </div>
+            <div class="form-group">
+              <label>Жас санаты (интерфейс пен AI стилін өзгертеді)</label>
+              <select id="profAge">
+                <option value="6-9">6–9 жас</option>
+                <option value="10-13">10–13 жас</option>
+                <option value="14-17">14–17 жас</option>
+                <option value="18+">18 жастан жоғары</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- DESIGN THEME SWITCHER IN PROFILE -->
+          <div class="lesson-card" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <strong>🎨 Интерфейс дизайны (Light / Dark Mode)</strong>
+              <div style="font-size:0.88em; color:var(--muted);">Таңдауың аккаунтыңда сақталады және бетті жаңартқанда өзгермейді.</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn sm" id="profLightBtn" type="button" onclick="setThemeMode('light')">☀️ Light Mode</button>
+              <button class="btn sm" id="profDarkBtn" type="button" onclick="setThemeMode('dark')">🌙 Dark Mode</button>
+            </div>
+          </div>
+
+          <button class="btn primary" onclick="saveUserProfile()">💾 Профильді сақтау</button>
+          <div class="notice good" id="profSavedNotice">Профиль сәтті сақталды!</div>
+        </div>
+      </div>
+
+      <!-- TAB: GROWTH MAP & TREE -->
+      <div class="cab-pane" id="cab-map" style="display:none;">
+        <div class="grid-2">
+          <div class="panel" style="text-align:center;">
+            <h3>🌳 Менің даму ағашым</h3>
+            <p style="color:var(--muted); font-size:0.9em;">Әр орындалған тапсырма, ойын және миссия ағашқа жаңа жапырақ пен гүл қосады.</p>
+            <div id="growthTreeSvg"></div>
+            <p id="treeStatsText" style="font-weight:700;"></p>
+          </div>
+          <div class="panel">
+            <h3>📊 Белсенділік тарихы (Салыстырусыз)</h3>
+            <div id="growthStatsList"></div>
+            <h4 style="margin-top:16px;">🏅 Жетістіктер</h4>
+            <div id="achievementsChips" class="chips"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PERSONAL SITUATION (PRIVATE) -->
+      <div class="cab-pane" id="cab-situation" style="display:none;">
+        <div class="panel">
+          <h3>💜 Менің жағдайым (Ерікті әрі 100% құпия бөлім)</h3>
+          <p style="color:var(--muted);">Бұл жазбалар тек осы құрылғыда сақталады, ешкімге жарияланбайды.</p>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Тақырып</label>
+              <select id="sitCategory">
+                <option value="school">Мектептегі жағдай</option>
+                <option value="friends">Достармен қарым-қатынас</option>
+                <option value="family">Отбасылық жағдай</option>
+                <option value="bullying">Буллинг</option>
+                <option value="mood">Көңіл күй</option>
+                <option value="study">Оқу мәселелері</option>
+                <option value="other">Басқа жағдай</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Қазіргі көңіл күйің</label>
+              <select id="sitMood">
+                <option value="calm">🙂 Сабырлы</option>
+                <option value="happy">😄 Көңілді</option>
+                <option value="sad">😔 Мұңайып тұрмын</option>
+                <option value="anxious">😟 Уайымдап тұрмын</option>
+                <option value="needHelp">🆘 Көмек керек</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Жазбаң (қаласаң AI-дан қауіпсіз кеңес сұрай аласың)</label>
+            <textarea id="sitNoteInput" placeholder="Ойыңды еркін жаз..."></textarea>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn primary" onclick="saveSituationNote(false)">🔒 Құпия сақтау</button>
+            <button class="btn mint" onclick="saveSituationNote(true)">🤝 Сақтау және AI-дан қолдау кеңесін алу</button>
+          </div>
+          <div class="notice gentle" id="sitAiResponse"></div>
+          <div id="sitHistoryList" style="margin-top:16px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB: PRIVACY & REAL API CONNECTION -->
+      <div class="cab-pane" id="cab-privacy" style="display:none;">
+        <div class="panel">
+          <h3>🔒 Деректерді басқару және Сыртқы AI/База баптауы</h3>
+          <p style="color:var(--muted);">Барлық жеке деректеріңді JSON файл ретінде жүктеп алуға немесе толық өшіруге болады.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+            <button class="btn" onclick="exportUserData()">⬇️ Деректерді жүктеу (JSON)</button>
+            <button class="btn danger" onclick="clearAllPlatformData()">🗑️ Барлық деректерді өшіру</button>
+          </div>
+
+          <div class="lesson-card">
+            <h4>🔌 Нақты AI Backend / API прокси қосу (Қауіпсіз режим)</h4>
+            <p style="font-size:0.9em; color:var(--muted);">
+              Қауіпсіздік талабы бойынша AI API кілті браузерде сақталмайды. Егер өзіңнің серверлік прокси мекенжайың (мысалы, Cloudflare Worker / Vercel API) болса, төменге енгізе аласың:
+            </p>
+            <input type="text" id="apiProxyUrlInput" placeholder="https://your-backend.example.com/api/chat" />
+            <button class="btn sm primary" style="margin-top:8px;" onclick="saveProxyUrl()">Мекенжайды сақтау</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PERSISTENT 24/7 AI ASSISTANT BUTTON & DRAWER -->
+  <button class="ai-fab" type="button" onclick="toggleAiDrawer()" aria-label="AI Көмекші 24/7">
+    <span>🤖</span>
+    <span data-i18n="fabLabel">AI Көмекші</span>
+  </button>
+
+  <aside class="ai-drawer" id="aiDrawer" aria-label="AI Көмекші чаты">
+    <div class="ai-head">
+      <div>
+        <strong>🤖 MIXX AI Көмекші (24/7)</strong>
+        <div style="font-size:0.78em; opacity:0.9;" id="aiAgeModeCaption">Бейімделген режим: 10–13 жас</div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <button class="btn sm" style="background:rgba(255,255,255,0.22); color:inherit; border:none;" onclick="clearAiChat()" title="Чатты тазарту">🗑️</button>
+        <button class="btn sm" style="background:rgba(255,255,255,0.22); color:inherit; border:none;" onclick="toggleAiDrawer(false)">✕</button>
+      </div>
+    </div>
+
+    <div class="ai-messages" id="aiMessagesBox"></div>
+
+    <div class="ai-quick">
+      <button class="btn sm" onclick="quickAiAction('short')">Қысқаша түсіндір</button>
+      <button class="btn sm" onclick="quickAiAction('deep')">Толығырақ</button>
+      <button class="btn sm" onclick="quickAiAction('example')">Мысал келтір</button>
+      <button class="btn sm" onclick="quickAiAction('task')">Маған тапсырма бер</button>
+      <button class="btn sm" onclick="quickAiAction('rephrase')">Басқаша түсіндір</button>
+      <button class="btn sm" onclick="speakLastBotMessage()">🔊 Дауыстап оқы</button>
+    </div>
+
+    <div class="ai-input-bar">
+      <div id="voiceControlsBar" style="display:none; background:var(--soft-blue); padding:8px; border-radius:10px; font-size:0.88em;">
+        <div id="voiceStatusText">🎤 Тыңдап тұрмын...</div>
+        <div style="display:flex; gap:6px; margin-top:6px;">
+          <button class="btn sm" onclick="stopVoiceInput()">⏹️ Тоқтату</button>
+          <button class="btn sm" onclick="startVoiceInput()">🔄 Қайта</button>
+          <button class="btn sm danger" onclick="cancelVoiceInput()">✕ Өшіру</button>
+        </div>
+      </div>
+
+      <div id="imagePreviewBar" style="display:none; background:var(--soft-purple); padding:8px; border-radius:10px; font-size:0.85em; justify-content:space-between; align-items:center;">
+        <span id="imageFileName">📷 Сурет таңдалды</span>
+        <button class="btn sm danger" onclick="clearAttachedImage()">✕</button>
+      </div>
+
+      <div style="display:flex; gap:6px; align-items:center;">
+        <input type="file" id="aiImageInput" accept="image/*" capture="environment" style="display:none;" onchange="handleAiImageSelect(event)" />
+        <button class="btn sm" type="button" onclick="document.getElementById('aiImageInput').click()" title="Сурет жүктеу">📷</button>
+        <button class="btn sm" type="button" onclick="startVoiceInput()" title="Дауыспен сұрау">🎤</button>
+        <input type="text" id="aiTextInput" style="flex:1; margin:0;" placeholder="Сұрағыңды жаз..." onkeydown="if(event.key==='Enter') sendAiMessage();" />
+        <button class="btn sm primary" type="button" onclick="sendAiMessage()">➤</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    /* =====================================================================
+       1. I18N (3 LANGUAGES: KK / RU / EN)
+    ===================================================================== */
+    const I18N = {
+      kk: {
+        slogan: "Әр балаға — жеке әлем, әр сұраққа — жауап!",
+        navHome: "Басты бет",
+        navStudy: "Сабырлы оқу",
+        navGame: "Ойын әлемі",
+        navStudio: "Шығармашылық",
+        navLang: "Тіл үйрену",
+        navInterests: "Қызығушылықтар",
+        navCabinet: "Жеке кабинет",
+        contrast: "Анық көрініс",
+        heroSub: "Жас санатыңа, қарқыныңа және қызығушылығыңа бейімделген білім, ойын және шығармашылық кеңістігі.",
+        btnAuth: "Тіркелу / Профиль",
+        btnOpenAi: "🤖 AI Көмекші 24/7",
+        missionTag: "🌟 Бүгінгі миссия",
+        btnDone: "Орындалды (+1 жапырақ 🌿)",
+        quickAiTitle: "🤖 AI Көмекшіге жылдам сұрақ",
+        btnAsk: "Сұрау",
+        cardStudyTitle: "Сабырлы оқу кеңістігі",
+        cardStudyDesc: "5 түрлі түсіндіру тәсілі (Мәтін, Сызба, Дыбыс, Қадамдар, Байқап көру) және «Екінші мүмкіндік».",
+        btnOpen: "Ашу",
+        cardGameTitle: "AI Game World",
+        cardGameDesc: "Кез келген тақырып бойынша 5 кезеңдік оқиғалы ойын құрастыр.",
+        btnBuildGame: "Ойын құрастыру",
+        cardStudioTitle: "Шығармашылық студия",
+        cardStudioDesc: "AI сурет идеясы, ертегі құрастыру, өлең мен әңгіме, комикс және идеялар генераторы.",
+        btnCreate: "Шығармашылыққа өту",
+        cardLangTitle: "Тіл үйрену бөлімі",
+        cardLangDesc: "Қазақ, орыс және ағылшын тілдерінде жаңа сөздер, айтылуы және AI диалог.",
+        btnLearnLang: "Тіл үйрену",
+        cardIntTitle: "Менің қызығушылық әлемім",
+        cardIntDesc: "Ғарыш, робототехника, өнер, спорт немесе ғылым — таңдауыңа сай AI ұсыныстар береді.",
+        btnChooseInt: "Қызығушылықтар",
+        cardTreeTitle: "Жеке даму картасы",
+        cardTreeDesc: "Салыстырусыз, тек сенің жеке жетістіктерің мен өсіп келе жатқан «Даму ағашың».",
+        btnSeeMap: "Картаны көру",
+        fabLabel: "AI Көмекші",
+        welcomeTpl: (name) => `Сәлем, ${name}! Бүгін қандай жаңалық ашамыз?`
+      },
+      ru: {
+        slogan: "Каждому ребёнку — свой мир, на каждый вопрос — ответ!",
+        navHome: "Главная",
+        navStudy: "Спокойная учёба",
+        navGame: "Игровой мир",
+        navStudio: "Творчество",
+        navLang: "Языки",
+        navInterests: "Интересы",
+        navCabinet: "Кабинет",
+        contrast: "Высокий контраст",
+        heroSub: "Цифровое пространство знаний, игр и творчества, адаптированное под твой возраст и темп.",
+        btnAuth: "Регистрация / Профиль",
+        btnOpenAi: "🤖 AI Помощник 24/7",
+        missionTag: "🌟 Миссия дня",
+        btnDone: "Выполнено (+1 листок 🌿)",
+        quickAiTitle: "🤖 Быстрый вопрос AI Помощнику",
+        btnAsk: "Спросить",
+        cardStudyTitle: "Спокойное пространство учёбы",
+        cardStudyDesc: "5 способов объяснения (Текст, Схема, Звук, Шаги, Практика) и «Второй шанс».",
+        btnOpen: "Открыть",
+        cardGameTitle: "AI Game World",
+        cardGameDesc: "Создай сюжетную игру из 5 этапов на любую тему: Острова, Космос, Замок, Сокровища.",
+        btnBuildGame: "Создать игру",
+        cardStudioTitle: "Творческая студия",
+        cardStudioDesc: "Идеи рисунков, генератор сказок, стихи и рассказы, комиксы и банк идей.",
+        btnCreate: "В студию",
+        cardLangTitle: "Изучение языков",
+        cardLangDesc: "Казахский, русский и английский: новые слова, произношение, сопоставление и AI-диалог.",
+        btnLearnLang: "Учить языки",
+        cardIntTitle: "Мой мир интересов",
+        cardIntDesc: "Космос, робототехника, искусство, спорт или наука — персональные подборки от AI.",
+        btnChooseInt: "Интересы",
+        cardTreeTitle: "Карта личного развития",
+        cardTreeDesc: "Без сравнений с другими — только твои успехи и растущее «Дерево развития».",
+        btnSeeMap: "Смотреть карту",
+        fabLabel: "AI Помощник",
+        welcomeTpl: (name) => `Привет, ${name}! Какое открытие сделаем сегодня?`
+      },
+      en: {
+        slogan: "A personal world for every child, an answer to every question!",
+        navHome: "Home",
+        navStudy: "Calm Study",
+        navGame: "Game World",
+        navStudio: "Creative Studio",
+        navLang: "Languages",
+        navInterests: "Interests",
+        navCabinet: "My Cabinet",
+        contrast: "High Contrast",
+        heroSub: "A safe digital world for learning, games, and creativity adapted to your age and pace.",
+        btnAuth: "Sign Up / Profile",
+        btnOpenAi: "🤖 AI Helper 24/7",
+        missionTag: "🌟 Mission of the Day",
+        btnDone: "Completed (+1 leaf 🌿)",
+        quickAiTitle: "🤖 Quick Question to AI Helper",
+        btnAsk: "Ask",
+        cardStudyTitle: "Calm Learning Space",
+        cardStudyDesc: "5 explanation modes (Text, Visual, Audio, Steps, Practice) and Gentle Second Chance.",
+        btnOpen: "Open",
+        cardGameTitle: "AI Game World",
+        cardGameDesc: "Generate a 5-stage story adventure on any topic: Islands, Space, Castle, Treasure.",
+        btnBuildGame: "Build Game",
+        cardStudioTitle: "Creative Studio",
+        cardStudioDesc: "Art concepts, fairy tale builder, poems & stories, comics, and idea generator.",
+        btnCreate: "Open Studio",
+        cardLangTitle: "Language Learning",
+        cardLangDesc: "Kazakh, Russian, and English: vocabulary, pronunciation, matching, and AI chat.",
+        btnLearnLang: "Learn Languages",
+        cardIntTitle: "My World of Interests",
+        cardIntDesc: "Space, robotics, art, sports, or science — tailored recommendations from AI.",
+        btnChooseInt: "Interests",
+        cardTreeTitle: "Personal Growth Map",
+        cardTreeDesc: "No comparison with others — only your milestones and growing Tree of Progress.",
+        btnSeeMap: "View Map",
+        fabLabel: "AI Helper",
+        welcomeTpl: (name) => `Hello, ${name}! What shall we discover today?`
+      }
+    };
+
+    /* =====================================================================
+       2. STATE & PERSISTENCE
+    ===================================================================== */
+    const STORAGE_KEY = "mixx_platform_v2";
+
+    const LESSONS = [
+      {
+        id: "fractions",
+        title: "Бөлшектер: бүтіннің бөлігі",
+        simple: "Бір бүтін нәрсені тең бөліктерге бөлсек, бөлшек пайда болады. Мысалы, 4 тең бөліктің 1 бөлігі — 1/4.",
+        standard: "Бөлшек — бүтіннің бір немесе бірнеше тең бөлігін білдіретін сан. Төменгі сан (бөлім) неше тең бөлікке бөлінгенін, ал үстіңгі сан (алым) қанша бөлік алынғанын көрсетеді.",
+        deep: "Бөлшек m/n бүтін шаманы n тең бөлікке бөлу кезінде алынатын үлестердің m санын өрнектейді (n ≠ 0). Төменгі сан бөліктің өлшемін, үстіңгі сан санын нақтылайды.",
+        steps: [
+          "Алдымен бір бүтін фигураны (мысалы, тіктөртбұрышты) көз алдыңа келтір.",
+          "Оны 4 бірдей бөлікке бөл — бұл төменгі сан (4).",
+          "Соның 1 бөлігін боя — бұл үстіңгі сан (1). Шыққаны: 1/4."
+        ],
+        audio: "Егер бір дөңгелекті 4 бірдей бөлікке бөліп, соның 1 бөлігін алсақ, бұл 1/4 болады. Төменгі сан — бөлік саны, үстіңгі сан — алынған бөлік.",
+        question: "Тіктөртбұрыш 4 тең бөлікке бөлініп, 1 бөлігі боялды. Бұл қандай бөлшек?",
+        options: ["1/4", "4/1", "1/2"],
+        correct: 0,
+        hint: "Бәрі 4 бөлікке бөлінген, ал біз 1 бөлігін алдық. Сонда 1/4."
+      },
+      {
+        id: "photosynthesis",
+        title: "Өсімдіктегі фотосинтез",
+        simple: "Жасыл жапырақ күн сәулесі, су және ауадағы көмірқышқыл газы арқылы қорек жасайды, әрі оттегі бөледі.",
+        standard: "Фотосинтез — өсімдік жапырағы жарық энергиясын пайдаланып, су мен көмірқышқыл газынан қоректік зат түзетін және оттегі бөлетін табиғи үдеріс.",
+        deep: "Жапырақтағы жасыл пигмент (хлорофилл) жарық қатысында су мен көмірқышқыл газынан қант (глюкоза) түзеді және тыныс алуға қажетті оттегін бөледі.",
+        steps: [
+          "Тамыр арқылы өсімдікке су келеді.",
+          "Жапырақ күн жарығы мен ауадағы көмірқышқыл газын қабылдайды.",
+          "Өсімдік өзіне қорек жинайды және бізге таза оттегі береді."
+        ],
+        audio: "Жапырақты кішкентай шеберхана деп елестет: күн сәулесі, су және ауа бірігіп, өсімдікке қорек пен бізге оттегі сыйлайды.",
+        question: "Өсімдікке қорек түзу үшін қандай жағдайлар қажет?",
+        options: ["Жарық, су және көмірқышқыл газы", "Тек қана топырақ пен тұз", "Қараңғылық және оттегі"],
+        correct: 0,
+        hint: "Өсімдікке күн жарығы, су және көмірқышқыл газы керек."
+      }
+    ];
+
+    const MODE_NAMES = {
+      text: "Мәтін",
+      visual: "Сурет / Сызба",
+      audio: "Дыбыс",
+      steps: "Қадамдар",
+      practice: "Байқап көру"
+    };
+
+    const INTEREST_LIST = [
+      { id: "space", icon: "🚀", kk: "Ғарыш және астрономия", ru: "Космос и астрономия", en: "Space & Astronomy", fact: "Юпитердегі бір күн небәрі 10 сағатқа созылады, себебі ол өте жылдам айналады!", exp: "Тәжірибе: Шам мен доп арқылы Ай фазаларын үйде жасап көр." },
+      { id: "science", icon: "🔬", kk: "Ғылым", ru: "Наука", en: "Science", fact: "Су мұзға айналғанда көлемі шамамен 9%-ға ұлғаяды, сондықтан мұз суда қалқиды.", exp: "Тәжірибе: Бір стақан суға тұз қосып, жұмыртқаның қалай қалқығанын бақыла." },
+      { id: "robotics", icon: "🤖", kk: "Робототехника", ru: "Робототехника", en: "Robotics", fact: "«Робот» сөзін 1920 жылы чех жазушысы Карел Чапек алғаш рет қолданған.", exp: "Тапсырма: Қағаздан қарапайым манипулятор-қол моделін құрастыр." },
+      { id: "art", icon: "🎨", kk: "Өнер", ru: "Искусство", en: "Art", fact: "Көк пен сары түсті араластырсаң жасыл, ал қызыл мен көкті қоссаң күлгін шығады.", exp: "Идея: Шығармашылық студияда 4 кадрлық комикс салып көр!" },
+      { id: "nature", icon: "🌿", kk: "Табиғат пен жануарлар", ru: "Природа и животные", en: "Nature & Animals", fact: "Сегізаяқтың үш жүрегі және көк түсті қаны бар.", exp: "Бақылау: Бүгін ауладағы 3 түрлі өсімдіктің жапырағын салыстырып көр." },
+      { id: "tech", icon: "💻", kk: "Технология", ru: "Технологии", en: "Technology", fact: "Алғашқы компьютерлік тышқан 1964 жылы ағаштан жасалған.", exp: "Жоба: Болашақ ақылды мектептің сызбасын қағазға түсір." },
+      { id: "books", icon: "📚", kk: "Кітап және әдебиет", ru: "Книги и литература", en: "Books & Literature", fact: "Күніне 15 минут кітап оқу сөздік қорды жылына 1 миллион сөзге дейін байытады.", exp: "Шығармашылық: Өз кейіпкерің туралы қысқа ертегі жаз." },
+      { id: "sport", icon: "⚽", kk: "Спорт", ru: "Спорт", en: "Sport", fact: "10 минуттық жеңіл жаттығу мидың есте сақтау қабілетін бірден жақсартады.", exp: "Челлендж: Бүгін 15 рет отырып-тұру және созылу жаттығуын жаса." }
+    ];
+
+    const initialState = {
+      lang: "kk",
+      theme: "light",
+      user: {
+        name: "Жас Зерттеуші",
+        email: "",
+        ageGroup: "10-13"
+      },
+      lessonId: LESSONS[0].id,
+      mode: "text",
+      pace: "standard",
+      scale: 1,
+      contrast: false,
+      secondChanceUsed: 0,
+      secondChanceShow: false,
+      doneCount: 1,
+      comfort: { text: 68, visual: 78, audio: 72, steps: 82, practice: 74 },
+      interests: ["space", "science", "art"],
+      missionCompletedDate: "",
+      missionNotes: [],
+      portfolio: [],
+      gamesCompleted: 0,
+      wordsLearned: 0,
+      situations: [],
+      chatHistory: [
+        { role: "bot", text: "Сәлем! Мен MIXX AI көмекшімін. Оқу тапсырмасы, есеп, ертегі немесе кез келген сұрақ бойынша көмектесемін!" }
+      ],
+      game: null,
+      proxyUrl: ""
+    };
+
+    function loadState() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!raw) return structuredClone(initialState);
+        return {
+          ...initialState,
+          ...raw,
+          user: { ...initialState.user, ...(raw.user || {}) },
+          comfort: { ...initialState.comfort, ...(raw.comfort || {}) }
+        };
+      } catch {
+        return structuredClone(initialState);
+      }
+    }
+
+    let state = loadState();
+    function saveState() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    }
+
+    /* =====================================================================
+       3. THEME MODE (LIGHT / DARK), NAVIGATION & I18N
+    ===================================================================== */
+    function setThemeMode(mode) {
+      state.theme = mode === "dark" ? "dark" : "light";
+      saveState();
+      applyVisualPrefs();
+    }
+
+    function toggleThemeMode() {
+      setThemeMode(state.theme === "dark" ? "light" : "dark");
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      const target = document.getElementById("view-" + viewId);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.view === viewId);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => switchView(btn.dataset.view));
+    });
+
+    function applyTranslations() {
+      const dict = I18N[state.lang] || I18N.kk;
+      document.documentElement.lang = state.lang;
+      document.getElementById("langSelect").value = state.lang;
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      document.getElementById("welcomeHeading").textContent = dict.welcomeTpl(state.user.name || "Досым");
+      document.getElementById("homeAgeBadge").textContent = `Жас: ${state.user.ageGroup}`;
+      document.getElementById("homeComfortBadge").textContent = `Үйлесімді тәсіл: ${MODE_NAMES[topMode()]}`;
+      document.getElementById("aiAgeModeCaption").textContent = `Бейімделген режим: ${state.user.ageGroup} жас`;
+    }
+
+    document.getElementById("langSelect").addEventListener("change", e => {
+      state.lang = e.target.value;
+      saveState();
+      applyTranslations();
+      renderMission();
+      renderInterests();
+      renderLanguageLesson();
+    });
+
+    function applyVisualPrefs() {
+      const isDark = state.theme === "dark";
+      document.documentElement.style.setProperty("--font-scale", state.scale);
+      document.body.classList.toggle("dark-mode", isDark);
+      document.body.classList.toggle("high-contrast", state.contrast);
+      document.body.classList.toggle("age-young", state.user.ageGroup === "6-9");
+      document.body.classList.toggle("age-teen", state.user.ageGroup === "14-17" || state.user.ageGroup === "18+");
+
+      document.getElementById("themeIcon").textContent = isDark ? "🌙" : "☀️";
+      document.getElementById("themeLabel").textContent = isDark ? "Dark" : "Light";
+
+      const pLight = document.getElementById("profLightBtn");
+      const pDark = document.getElementById("profDarkBtn");
+      if (pLight && pDark) {
+        pLight.classList.toggle("active", !isDark);
+        pDark.classList.toggle("active", isDark);
+      }
+
+      const cBtn = document.getElementById("contrastToggle");
+      cBtn.classList.toggle("active", state.contrast);
+    }
+
+    document.getElementById("fontInc").addEventListener("click", () => {
+      state.scale = Math.min(1.4, +(state.scale + 0.1).toFixed(2));
+      saveState();
+      applyVisualPrefs();
+    });
+
+    document.getElementById("fontDec").addEventListener("click", () => {
+      state.scale = Math.max(0.9, +(state.scale - 0.1).toFixed(2));
+      saveState();
+      applyVisualPrefs();
+    });
+
+    document.getElementById("contrastToggle").addEventListener("click", () => {
+      state.contrast = !state.contrast;
+      saveState();
+      applyVisualPrefs();
+    });
+
+    function speakString(text) {
+      if (!text) return;
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = state.lang === "ru" ? "ru-RU" : state.lang === "en" ? "en-US" : "kk-KZ";
+        window.speechSynthesis.speak(u);
+      } else {
+        alert(text);
+      }
+    }
+
+    /* =====================================================================
+       4. PRESERVED STUDY SPACE
+    ===================================================================== */
+    function topMode() {
+      let best = "text", max = -1;
+      for (const [m, v] of Object.entries(state.comfort)) {
+        if (v > max) { max = v; best = m; }
+      }
+      return best;
+    }
+
+    function nudgeComfort(mode, diff) {
+      state.comfort[mode] = Math.max(15, Math.min(100, (state.comfort[mode] || 50) + diff));
+      saveState();
+      renderMeters();
+      renderTeacher();
+      applyTranslations();
+    }
+
+    function svgGraphic(id) {
+      if (id === "fractions") {
+        return `
+          <svg viewBox="0 0 360 116" width="100%" style="max-width:360px;" role="img" aria-label="4 бөліктің 1-еуі боялған тіктөртбұрыш">
+            <rect x="18" y="18" width="80" height="78" fill="#8568e8" stroke="#4c5c88" stroke-width="2"/>
+            <rect x="98" y="18" width="80" height="78" fill="#dbeafe" stroke="#4c5c88" stroke-width="2"/>
+            <rect x="178" y="18" width="80" height="78" fill="#dbeafe" stroke="#4c5c88" stroke-width="2"/>
+            <rect x="258" y="18" width="80" height="78" fill="#dbeafe" stroke="#4c5c88" stroke-width="2"/>
+          </svg>
+          <p style="margin:8px 0 0;">Күлгін бөлік — <strong>1/4</strong> (4 бөліктің 1-еуі).</p>
+        `;
+      }
+      return `
+        <svg viewBox="0 0 380 116" width="100%" style="max-width:380px;" role="img" aria-label="Күн мен судан жапыраққа бағытталған сызба">
+          <circle cx="48" cy="44" r="21" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+          <text x="48" y="90" text-anchor="middle" font-size="13" fill="currentColor">Күн + CO₂</text>
+          <path d="M82 44 L142 54" stroke="#46b5e5" stroke-width="3"/>
+          <ellipse cx="184" cy="56" rx="36" ry="19" fill="#6ee7b7" stroke="#065f46" stroke-width="2"/>
+          <text x="184" y="60" text-anchor="middle" font-size="12" fill="#064e3b">Жапырақ</text>
+          <path d="M224 56 L278 56" stroke="#9B85FF" stroke-width="3"/>
+          <text x="325" y="60" text-anchor="middle" font-size="13" fill="currentColor">Қорек + O₂</text>
+        </svg>
+      `;
+    }
+
+    function renderTopics() {
+      const box = document.getElementById("topicsContainer");
+      box.innerHTML = "";
+      LESSONS.forEach(item => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "btn topic-item" + (item.id === state.lessonId ? " active" : "");
+        b.textContent = item.title;
+        b.onclick = () => {
+          state.lessonId = item.id;
+          state.secondChanceShow = false;
+          saveState();
+          renderStudyAll();
+        };
+        box.appendChild(b);
+      });
+    }
+
+    function renderLesson() {
+      const item = LESSONS.find(x => x.id === state.lessonId) || LESSONS[0];
+      document.getElementById("lessonTitle").textContent = item.title;
+      document.getElementById("comfortTag").textContent = `Үйлесімді тәсіл: ${MODE_NAMES[topMode()]}`;
+      document.getElementById("readingPace").value = state.pace;
+      document.getElementById("secondChanceBox").classList.toggle("show", state.secondChanceShow);
+
+      document.querySelectorAll(".mode-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === state.mode);
+      });
+
+      const body = document.getElementById("lessonBody");
+      if (state.mode === "text") {
+        body.innerHTML = `<p style="margin:0;">${item[state.pace]}</p>`;
+      } else if (state.mode === "visual") {
+        body.innerHTML = svgGraphic(item.id);
+      } else if (state.mode === "audio") {
+        body.innerHTML = `<p style="margin:0;">${item.audio}</p>`;
+      } else if (state.mode === "steps") {
+        body.innerHTML = `<ol style="margin:0; padding-left:20px;">${item.steps.map(s => `<li>${s}</li>`).join("")}</ol>`;
+      } else {
+        body.innerHTML = `<p style="margin:0;">Төмендегі сұраққа жауап беріп көр. Егер түсініксіз болса, <strong>«Екінші мүмкіндік»</strong> арқылы басқа жолға өте аласың.</p>`;
+      }
+
+      document.getElementById("questionText").textContent = item.question;
+      const choices = document.getElementById("choicesContainer");
+      const fb = document.getElementById("feedbackBox");
+      fb.className = "notice";
+      fb.textContent = "";
+      choices.innerHTML = "";
+
+      item.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn choice-btn";
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (i === item.correct) {
+            state.doneCount += 1;
+            nudgeComfort(state.mode, 7);
+            fb.className = "notice show good";
+            fb.textContent = `Жақсы шықты! «${MODE_NAMES[state.mode]}» тәсілі осы жерде жақсы көмектесті.`;
+            saveState();
+            renderGrowthMap();
+          } else {
+            nudgeComfort(state.mode, -5);
+            fb.className = "notice show gentle";
+            fb.innerHTML = `Асықпайық: ${item.hint}<br>Қаласаң, <strong>«Екінші мүмкіндік»</strong> түймесін басып, басқа жолмен көріп шық.`;
+          }
+        };
+        choices.appendChild(btn);
+      });
+    }
+
+    function nextGentleWay() {
+      const sequence = ["text", "visual", "steps", "audio", "practice"];
+      const idx = sequence.indexOf(state.mode);
+      state.mode = sequence[(idx + 1) % sequence.length];
+      state.secondChanceUsed += 1;
+      state.secondChanceShow = true;
+      if (state.pace === "deep") state.pace = "standard";
+      saveState();
+      renderLesson();
+      renderTeacher();
+    }
+
+    function renderMeters() {
+      const wrap = document.getElementById("metersContainer");
+      wrap.innerHTML = "";
+      for (const [m, val] of Object.entries(state.comfort)) {
+        const row = document.createElement("div");
+        row.className = "progress-row";
+        row.innerHTML = `
+          <div class="progress-top"><span>${MODE_NAMES[m]}</span><strong>${val}%</strong></div>
+          <div class="track"><div class="fill" style="width:${val}%"></div></div>
+        `;
+        wrap.appendChild(row);
+      }
+      document.getElementById("summaryLine").textContent =
+        `Қазіргі жақын тәсіл: «${MODE_NAMES[topMode()]}». Басқа жолға өту: ${state.secondChanceUsed} рет.`;
+    }
+
+    function renderTeacher() {
+      document.getElementById("teacherRows").innerHTML = `
+        <tr>
+          <td>${state.user.name || "Оқушы #1"}</td>
+          <td>${state.doneCount}</td>
+          <td>${state.secondChanceUsed}</td>
+          <td>${MODE_NAMES[topMode()]} (қарқын: ${state.pace})</td>
+        </tr>
+        <tr>
+          <td>Оқушы #2</td>
+          <td>4</td>
+          <td>1</td>
+          <td>Қадамдар</td>
+        </tr>
+      `;
+    }
+
+    function renderStudyAll() {
+      renderTopics();
+      renderLesson();
+      renderMeters();
+      renderTeacher();
+    }
+
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.mode = btn.dataset.mode;
+        state.secondChanceShow = false;
+        saveState();
+        renderLesson();
+      });
+    });
+
+    document.getElementById("readingPace").addEventListener("change", e => {
+      state.pace = e.target.value;
+      saveState();
+      renderLesson();
+    });
+
+    document.getElementById("secondChanceTrigger").addEventListener("click", nextGentleWay);
+    document.getElementById("readAloud").addEventListener("click", () => {
+      const item = LESSONS.find(x => x.id === state.lessonId) || LESSONS[0];
+      speakString(`${item.title}. ${document.getElementById("lessonBody").innerText}. ${item.question}`);
+    });
+
+    document.getElementById("teacherBtn").addEventListener("click", e => {
+      const sec = document.getElementById("teacherSection");
+      const open = sec.style.display === "none";
+      sec.style.display = open ? "block" : "none";
+      e.currentTarget.setAttribute("aria-expanded", String(open));
+    });
+
+    document.addEventListener("keydown", e => {
+      if (["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+      const keys = { "1": "text", "2": "visual", "3": "audio", "4": "steps", "5": "practice" };
+      if (keys[e.key] && document.getElementById("view-study").classList.contains("active")) {
+        state.mode = keys[e.key];
+        saveState();
+        renderLesson();
+      }
+    });
+
+    /* =====================================================================
+       5. DAILY MISSION
+    ===================================================================== */
+    const MISSIONS = [
+      { title: "Табиғатқа 3 пайдалы әрекет", desc: "Бүгін айналаңнан табиғатқа пайдалы үш әрекетті байқа немесе өзің орында (суды үнемдеу, қоқыс сұрыптау, өсімдікке су құю)." },
+      { title: "Логикалық жұмбақ", desc: "Қай сөз әрқашан қате жазылады? Жауабын ойланып, миссияны орындалды деп белгіле! (Жауабы: «Қате» сөзі)." },
+      { title: "Жаңа 3 сөз үйрен", desc: "Тіл үйрену бөліміне кіріп, жаңа 3 сөзді дауыстап қайталап шық." },
+      { title: "Болашақ өнертабысы", desc: "Шығармашылық студияда адамдарға көмектесетін бір құрылғының идеясын жаз." }
+    ];
+
+    function renderMission() {
+      const dayIdx = new Date().getDate() % MISSIONS.length;
+      const m = MISSIONS[dayIdx];
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const isDone = state.missionCompletedDate === todayKey;
+
+      document.getElementById("missionTitle").textContent = m.title;
+      document.getElementById("missionDesc").textContent = m.desc;
+
+      const actionArea = document.getElementById("missionActionArea");
+      if (isDone) {
+        actionArea.innerHTML = `<span class="badge mint">✅ Бүгінгі миссия орындалды!</span>`;
+        document.getElementById("missionCompleteBox").style.display = "none";
+      } else {
+        actionArea.innerHTML = `<button class="btn mint" onclick="document.getElementById('missionCompleteBox').style.display='block'">Миссияны аяқтау</button>`;
+      }
+    }
+
+    function completeDailyMission() {
+      const todayKey = new Date().toISOString().slice(0, 10);
+      if (state.missionCompletedDate === todayKey) return;
+      state.missionCompletedDate = todayKey;
+      const note = document.getElementById("missionNoteInput").value.trim();
+      state.missionNotes.unshift({ date: todayKey, note: note || "Орындалды!" });
+      saveState();
+      renderMission();
+      renderGrowthMap();
+    }
+
+    /* =====================================================================
+       6. AI GAME WORLD (5 DISTINCT STAGES + 3 AI HELP MODES)
+    ===================================================================== */
+    const TEMPLATE_THEMES = {
+      space: { name: "Ғарыш экспедициясы", places: ["Ай станциясы", "Марс алқабы", "Юпитер орбитасы", "Сатурн сақинасы", "Жұлдызды қақпа"] },
+      islands: { name: "Аралдар саяхаты", places: ["Жұмбақ жағалау", "Кристалл үңгірі", "Биік шың", "Сырлы орман", "Алтын мүйіз"] },
+      castle: { name: "Құпия сарай", places: ["Кіреберіс зал", "Кітапхана мұнарасы", "Алхимия бөлмесі", "Айна галереясы", "Патша қазынасы"] },
+      treasure: { name: "Қазына іздеу", places: ["Ескі карта", "Көпір өткелі", "Тас лабиринт", "Жерасты өзені", "Қазына сандығы"] },
+      time: { name: "Уақыт машинасы", places: ["Ежелгі дәуір", "Орта ғасыр", "Өнертабыстар ғасыры", "Қазіргі заман", "2150 жыл болашағы"] }
+    };
+
+    function buildFiveStageGame() {
+      const topic = document.getElementById("gameTopicInput").value.trim() || "Ғарыш";
+      const tplKey = document.getElementById("gameTemplateSelect").value;
+      const diff = document.getElementById("gameDiffSelect").value;
+      const age = document.getElementById("gameAgeSelect").value;
+      const tpl = TEMPLATE_THEMES[tplKey] || TEMPLATE_THEMES.space;
+
+      state.game = {
+        topic,
+        tplKey,
+        tplName: tpl.name,
+        diff,
+        age,
+        currentStage: 0,
+        completedStages: [],
+        mistakes: 0,
+        stages: [
+          {
+            title: `1-кезең: ${tpl.places[0]} — Бастапқы барлау`,
+            story: `Сен «${topic}» тақырыбы бойынша ${tpl.name} сапарына шықтың. Алғашқы аялдама — ${tpl.places[0]}.`,
+            type: "choice",
+            prompt: `«${topic}» әлемін зерттеу үшін ең алдымен не қажет?`,
+            options: ["Бақылау, сұрақ қою және дерек жинау", "Ештеңе оқымай болжай салу", "Тек асығу"],
+            answer: 0,
+            hint: "Зерттеуші ең алдымен бақылайды және сұрақ қояды.",
+            explain: "Кез келген ғылыми немесе танымдық сапар бақылау мен сұрақ қоюдан басталады.",
+            solution: "1-қадам: Нұсқаларды оқы. 2-қадам: «Бақылау, сұрақ қою және дерек жинау» жауабын таңда."
+          },
+          {
+            title: `2-кезең: ${tpl.places[1]} — Реттілік коды`,
+            story: `${tpl.places[1]} қақпасын ашу үшін зерттеу қадамдарын дұрыс ретпен орналастыр.`,
+            type: "order",
+            prompt: "Қадамдарды жоғарыдан төменге дұрыс ретпен қой:",
+            items: ["Сұрақ қою", "Тәжірибе жасау", "Қорытынды шығару"],
+            userOrder: ["Қорытынды шығару", "Сұрақ қою", "Тәжірибе жасау"],
+            hint: "Алдымен сұрақ туады, сосын тәжірибе жасалады, соңында қорытынды шығады.",
+            explain: "Логикалық тізбек: Сұрақ -> Тәжірибе -> Қорытынды.",
+            solution: "«Сұрақ қою» сөзін 1-орынға, «Тәжірибе жасау» сөзін 2-орынға көтер."
+          },
+          {
+            title: `3-кезең: ${tpl.places[2]} — Жасырын сөз шифры`,
+            story: `${tpl.places[2]} ішінде «${topic}» тақырыбына қатысты кілт сөз жасырылған.`,
+            type: "text",
+            prompt: "Кілт сөзді тап: Адамзатқа жаңа білім беретін жүйелі ізденіс — «Ғ _ Л _ М» (сөзді толық жаз):",
+            expected: "ғылым",
+            hint: "5 әріптен тұрады, «Ғ» әрпінен басталып, «М» әрпімен аяқталады.",
+            explain: "Ғылым — табиғат пен қоғам заңдылықтарын зерттейтін білім жүйесі.",
+            solution: "Бос орынға «Ғылым» сөзін жазып, тексеру батырмасын бас."
+          },
+          {
+            title: `4-кезең: ${tpl.places[3]} — Жағдаятты шешу`,
+            story: `${tpl.places[3]} маңында командаң екі түрлі пікірге бөлінді.`,
+            type: "choice",
+            prompt: `Егер «${topic}» зерттеуінде нәтиже бірден шықпаса, ең дұрыс әрекет қайсы?`,
+            options: ["Қатені талдап, басқа тәсілмен қайта көру", "Жұмысты тастап кету", "Басқаларды кінәлау"],
+            answer: 0,
+            hint: "Қателік — жаңа нәрсе үйренудің қалыпты бөлігі.",
+            explain: "Нағыз зерттеушілер сәтсіз тәжірибеден сабақ алып, жаңа тәсіл қолданады.",
+            solution: "Бірінші нұсқаны («Қатені талдап, басқа тәсілмен қайта көру») таңда."
+          },
+          {
+            title: `5-кезең: ${tpl.places[4]} — Финалдық миссия`,
+            story: `Сен соңғы меже — ${tpl.places[4]} нүктесіне жеттің! Экспедиция есебін аяқта.`,
+            type: "choice",
+            prompt: `«${topic}» бойынша 5 кезеңдік зерттеуден қандай басты қорытынды аламыз?`,
+            options: ["Білім қадамдап, қызығушылық пен тәжірибе арқылы меңгеріледі", "Бәрін бір секундта жаттау керек", "Сұрақ қоюға болмайды"],
+            answer: 0,
+            hint: "Сабырлы қадамдар мен қызығушылық ең үлкен күш.",
+            explain: "Оқиғалы тәжірибе арқылы меңгерілген білім ұзақ есте сақталады.",
+            solution: "Бірінші нұсқаны таңдап, ойынды жеңіспен аяқта!"
+          }
+        ]
+      };
+
+      saveState();
+      renderGameWorld();
+    }
+
+    function renderGameWorld() {
+      const panel = document.getElementById("activeGamePanel");
+      if (!state.game) {
+        panel.innerHTML = `<p style="margin:0; color:var(--muted);">Жоғарыдан тақырып пен шаблонды таңдап, <strong>«Ойынды құрастыру»</strong> батырмасын бас.</p>`;
+        return;
+      }
+
+      const g = state.game;
+      const allDone = g.completedStages.length === 5;
+
+      let mapHtml = `<div class="stage-map">`;
+      g.stages.forEach((st, idx) => {
+        const done = g.completedStages.includes(idx);
+        const unlocked = idx === 0 || g.completedStages.includes(idx - 1) || done;
+        const curr = g.currentStage === idx && !allDone;
+        const cls = done ? "completed" : curr ? "current" : unlocked ? "unlocked" : "locked";
+        mapHtml += `
+          <div class="stage-node ${cls}" onclick="selectGameStage(${idx})">
+            <div>${done ? "✅" : unlocked ? "🔓" : "🔒"} ${idx + 1}-кезең</div>
+            <div style="font-size:0.82em; margin-top:4px;">${st.title.split(":")[1] || st.title}</div>
+          </div>
+        `;
+      });
+      mapHtml += `</div>`;
+
+      if (allDone) {
+        panel.innerHTML = `
+          ${mapHtml}
+          <div class="lesson-card" style="text-align:center; background:var(--soft-mint); border-color:var(--mint);">
+            <h2>🏆 Құттықтаймыз! Бес кезең толық аяқталды!</h2>
+            <p><strong>Тақырып:</strong> ${g.topic} (${g.tplName})</p>
+            <p><strong>Нәтиже:</strong> 5 / 5 кезең орындалды • Қате талпыныстар: ${g.mistakes}</p>
+            <p>🏅 Марапат: <strong>«${g.topic} шебері»</strong> белгісі Даму картасына қосылды!</p>
+            <button class="btn primary" onclick="buildFiveStageGame()">🔄 Қайта ойнау</button>
+          </div>
+        `;
+        return;
+      }
+
+      const st = g.stages[g.currentStage];
+      let taskHtml = "";
+
+      if (st.type === "choice") {
+        taskHtml = st.options.map((opt, i) => `
+          <button class="btn choice-btn" onclick="submitGameChoice(${i})">${opt}</button>
+        `).join("");
+      } else if (st.type === "order") {
+        taskHtml = `<div class="order-list">` + st.userOrder.map((item, i) => `
+          <div class="order-item">
+            <span><strong>${i + 1}.</strong> ${item}</span>
+            <div>
+              <button class="btn sm" onclick="moveOrderItem(${i}, -1)" ${i === 0 ? "disabled" : ""}>↑</button>
+              <button class="btn sm" onclick="moveOrderItem(${i}, 1)" ${i === st.userOrder.length - 1 ? "disabled" : ""}>↓</button>
+            </div>
+          </div>
+        `).join("") + `</div><button class="btn primary" onclick="submitGameOrder()">Реттілікті тексеру</button>`;
+      } else if (st.type === "text") {
+        taskHtml = `
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="text" id="gameTextAnswer" style="max-width:300px; margin:0;" placeholder="Жауабыңды жаз..." />
+            <button class="btn primary" onclick="submitGameText()">Тексеру</button>
+          </div>
+        `;
+      }
+
+      panel.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span class="badge blue">${g.tplName} • ${g.topic}</span>
+          <div style="display:flex; gap:6px;">
+            <button class="btn sm" onclick="speakString('${st.title}. ${st.story} ${st.prompt}')">🔊 Аудио тыңдау</button>
+            <button class="btn sm" onclick="window.speechSynthesis && window.speechSynthesis.cancel()">⏹️ Тоқтату</button>
+          </div>
+        </div>
+        ${mapHtml}
+        <div class="lesson-card">
+          <h3>${st.title}</h3>
+          <p>${st.story}</p>
+          <div style="margin:12px 0; padding:12px; background:var(--card-bg); border-radius:12px;">
+            <strong>Тапсырма:</strong> ${st.prompt}
+            <div style="margin-top:10px;">${taskHtml}</div>
+          </div>
+          <div class="notice" id="gameStageFeedback"></div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px;">
+            <button class="btn sm" onclick="gameAiHelp('hint')">💡 Ишара бер</button>
+            <button class="btn sm" onclick="gameAiHelp('explain')">📘 Түсіндіріп бер</button>
+            <button class="btn sm" onclick="gameAiHelp('solution')">🧭 Шешу жолын көрсет</button>
+          </div>
+          <button class="btn primary" id="nextStageBtn" style="display:none;" onclick="goToNextGameStage()">Келесі кезеңге ➔</button>
+        </div>
+        <div class="notice gentle" id="gameAiHelpBox"></div>
+      `;
+    }
+
+    function selectGameStage(idx) {
+      const g = state.game;
+      const unlocked = idx === 0 || g.completedStages.includes(idx - 1) || g.completedStages.includes(idx);
+      if (!unlocked) return;
+      g.currentStage = idx;
+      saveState();
+      renderGameWorld();
+    }
+
+    function markStageComplete() {
+      const g = state.game;
+      if (!g.completedStages.includes(g.currentStage)) {
+        g.completedStages.push(g.currentStage);
+      }
+      const fb = document.getElementById("gameStageFeedback");
+      fb.className = "notice show good";
+      fb.textContent = "🎉 Кезең аяқталды! Жарайсың!";
+
+      if (g.completedStages.length === 5) {
+        state.gamesCompleted += 1;
+        saveState();
+        renderGrowthMap();
+        setTimeout(renderGameWorld, 700);
+      } else {
+        document.getElementById("nextStageBtn").style.display = "inline-block";
+        saveState();
+      }
+    }
+
+    function submitGameChoice(idx) {
+      const st = state.game.stages[state.game.currentStage];
+      const fb = document.getElementById("gameStageFeedback");
+      if (idx === st.answer) {
+        markStageComplete();
+      } else {
+        state.game.mistakes += 1;
+        saveState();
+        fb.className = "notice show gentle";
+        fb.textContent = `Асықпа! ${st.hint}`;
+      }
+    }
+
+    function moveOrderItem(idx, dir) {
+      const arr = state.game.stages[state.game.currentStage].userOrder;
+      const target = idx + dir;
+      if (target < 0 || target >= arr.length) return;
+      [arr[idx], arr[target]] = [arr[target], arr[idx]];
+      saveState();
+      renderGameWorld();
+    }
+
+    function submitGameOrder() {
+      const st = state.game.stages[state.game.currentStage];
+      const ok = JSON.stringify(st.userOrder) === JSON.stringify(st.items);
+      const fb = document.getElementById("gameStageFeedback");
+      if (ok) {
+        markStageComplete();
+      } else {
+        state.game.mistakes += 1;
+        saveState();
+        fb.className = "notice show gentle";
+        fb.textContent = `Реттілікті тағы бір тексерші: ${st.hint}`;
+      }
+    }
+
+    function submitGameText() {
+      const st = state.game.stages[state.game.currentStage];
+      const val = (document.getElementById("gameTextAnswer").value || "").trim().toLowerCase();
+      const fb = document.getElementById("gameStageFeedback");
+      if (val === st.expected) {
+        markStageComplete();
+      } else {
+        state.game.mistakes += 1;
+        saveState();
+        fb.className = "notice show gentle";
+        fb.textContent = `Жақын қалдың! ${st.hint}`;
+      }
+    }
+
+    function goToNextGameStage() {
+      const g = state.game;
+      if (g.currentStage < 4) {
+        g.currentStage += 1;
+        saveState();
+        renderGameWorld();
+      }
+    }
+
+    function gameAiHelp(type) {
+      const st = state.game.stages[state.game.currentStage];
+      const box = document.getElementById("gameAiHelpBox");
+      box.className = "notice show gentle";
+      box.textContent = type === "hint" ? `💡 Ишара: ${st.hint}`
+        : type === "explain" ? `📘 Түсіндірме: ${st.explain}`
+        : `🧭 Шешу жолы: ${st.solution}`;
+    }
+
+    /* =====================================================================
+       7. CREATIVE STUDIO
+    ===================================================================== */
+    function switchStudioTab(tab) {
+      document.querySelectorAll(".studio-tab").forEach(b => b.classList.toggle("active", b.dataset.stab === tab));
+      document.querySelectorAll(".studio-pane").forEach(p => p.style.display = "none");
+      document.getElementById("studio-" + tab).style.display = "block";
+    }
+
+    function openStudioEditor(title, content) {
+      document.getElementById("studioEditorWrap").style.display = "block";
+      document.getElementById("workTitleInput").value = title;
+      document.getElementById("workContentArea").value = content;
+    }
+
+    function generateArtConcept() {
+      const p = document.getElementById("artPromptInput").value.trim() || "Қиялдағы жұлдызды қала";
+      const desc = `Сурет композициясы: «${p}».\n1. Алдыңғы план: жарқын бөлшектер мен басты кейіпкер.\n2. Түстер үйлесімі: күлгін, аспан көк және жылы алтын сәулелер.\n3. Кеңес: алдымен қарындашпен негізгі пішіндерді сызып, сосын түс қос.`;
+      document.getElementById("artResult").innerHTML = `
+        <div class="lesson-card">
+          <svg viewBox="0 0 420 130" width="100%" style="max-width:420px; border-radius:12px; background:linear-gradient(135deg,#ede9fe,#dbeafe);">
+            <circle cx="70" cy="45" r="22" fill="#fbbf24"/>
+            <polygon points="150,115 210,35 270,115" fill="#8b5cf6" opacity="0.8"/>
+            <polygon points="230,115 295,50 360,115" fill="#3b82f6" opacity="0.75"/>
+            <text x="210" y="24" text-anchor="middle" font-size="13" fill="#1e1b4b" font-weight="bold">${p.slice(0, 34)}</text>
+          </svg>
+          <p style="margin-bottom:0;">${desc.replace(/\n/g, "<br>")}</p>
+        </div>
+      `;
+      openStudioEditor(`Сурет идеясы: ${p}`, desc);
+    }
+
+    function generateFairyTale() {
+      const topic = document.getElementById("fairyTopic").value.trim() || "Достық";
+      const chars = document.getElementById("fairyChars").value.trim() || "Кішкентай жұлдыз";
+      const place = document.getElementById("fairyPlace").value.trim() || "Сиқырлы орман";
+      const len = document.getElementById("fairyLen").value;
+
+      let story = `Ертеде ${place} ішінде ${chars} өмір сүріпті. Бір күні олар «${topic}» сырын ашуға сапарға шығыпты.\n\nЖолда оларға күрделі жұмбақ кездеседі, бірақ бір-біріне көмектесіп, сабырмен шешімін табады.`;
+      if (len !== "short") {
+        story += `\n\nОлар әр қадам сайын жаңа нәрсе үйреніп, қиындықтан қорықпау керектігін түсінеді.`;
+      }
+      if (len === "long") {
+        story += `\n\nСоңында ${place} тұрғындары олардың батылдығы мен ақылына риза болып, үлкен мереке жасайды. Содан бері олар нағыз дос болып қалыпты.`;
+      }
+      openStudioEditor(`Ертегі: ${topic}`, story);
+    }
+
+    function generatePoemOrStory() {
+      const genre = document.getElementById("poemGenre").value;
+      const topic = document.getElementById("poemTopic").value.trim() || "Арман";
+      let text = "";
+      if (genre === "poem") {
+        text = `«${topic}»\n\nЖарқырап таңым атады,\nБілімге көңіл тартады.\nАрманға қанат қағамын,\nІздесем жауап табамын!`;
+      } else if (genre === "story") {
+        text = `«${topic}» туралы шағын әңгіме:\nБүгін мен үшін ерекше күн болды. Жаңа идея ойлап тауып, оны қадамдап іске асырдым. Ең бастысы — өзіңе сену екен!`;
+      } else {
+        text = `Сценарий: «${topic}»\n1-көрініс: Басты кейіпкер жаңа жобасын бастайды.\n2-көрініс: Достарымен бірге шешім табады.\n3-көрініс: Нәтижесін бәріне көрсетеді.`;
+      }
+      openStudioEditor(topic, text);
+    }
+
+    function generateComic() {
+      const topic = document.getElementById("comicTopic").value.trim() || "Ғарыш зертханасы";
+      const comic = `Комикс: «${topic}»\n\n[1-кадр] Әли: «Қарашы, мына құрылғы не істейді екен?»\n[2-кадр] Айша: «Қазір нұсқаулығын оқып, бірге тексеріп көрейік!»\n[3-кадр] Робот-MIXX: «Дұрыс таңдау! Алдымен қауіпсіздік ережесін сақтайық.»\n[4-кадр] Бәрі бірге: «Алақай! Тәжірибеміз сәтті шықты!»`;
+      openStudioEditor(`Комикс: ${topic}`, comic);
+    }
+
+    function generateRandomIdeas() {
+      const ideas = [
+        "1. Қағаз бен картоннан күн жүйесінің макетін жасау.",
+        "2. «Болашақтағы менің мамандығым» тақырыбына 4 кадрлық комикс салу.",
+        "3. Үйдегі өсімдіктердің өсу күнделігін 7 күн бойы жүргізу.",
+        "4. Отбасы мүшелеріне арнап 5 сұрақтан тұратын викторина құрастыру."
+      ];
+      document.getElementById("ideasResult").innerHTML = `<div class="lesson-card">${ideas.join("<br>")}</div>`;
+    }
+
+    function saveCreativeWork() {
+      const title = document.getElementById("workTitleInput").value.trim() || "Менің жұмысым";
+      const content = document.getElementById("workContentArea").value.trim();
+      if (!content) return;
+      state.portfolio.unshift({
+        id: Date.now(),
+        title,
+        content,
+        author: state.user.name,
+        date: new Date().toLocaleDateString()
+      });
+      saveState();
+      renderPortfolio();
+      renderGrowthMap();
+    }
+
+    function deleteCreativeWork(id) {
+      state.portfolio = state.portfolio.filter(w => w.id !== id);
+      saveState();
+      renderPortfolio();
+      renderGrowthMap();
+    }
+
+    function renderPortfolio() {
+      const box = document.getElementById("portfolioList");
+      if (!state.portfolio.length) {
+        box.innerHTML = `<p style="color:var(--muted);">Әзірге сақталған жұмыстар жоқ. Жоғарыдан ертегі, өлең немесе комикс құрастырып сақта!</p>`;
+        return;
+      }
+      box.innerHTML = state.portfolio.map(w => `
+        <div class="lesson-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <strong>${w.title}</strong>
+            <div>
+              <span class="sub-caption">${w.author} • ${w.date}</span>
+              <button class="btn sm danger" onclick="deleteCreativeWork(${w.id})">Өшіру</button>
+            </div>
+          </div>
+          <p style="white-space:pre-wrap; margin-bottom:0;">${w.content}</p>
+        </div>
+      `).join("");
+    }
+
+    /* =====================================================================
+       8. LANGUAGE LEARNING
+    ===================================================================== */
+    const LANG_DATA = {
+      en: {
+        words: [
+          { word: "Discovery", trans: "Жаңалық ашу / Открытие", ex: "Every day is a new discovery." },
+          { word: "Curiosity", trans: "Қызығушылық / Любопытство", ex: "Curiosity helps us learn." },
+          { word: "Courage", trans: "Батылдық / Смелость", ex: "You have the courage to try." }
+        ],
+        quiz: { q: "«Curiosity» сөзінің аудармасы қандай?", opts: ["Қызығушылық", "Ұйқы", "Жаңбыр"], ans: 0 },
+        dialogPrompt: "AI: Hello! What is your favorite hobby? (Ағылшынша қысқа жауап жаз, мысалы: I like reading)",
+        dialogSample: "Мысалы: «I like space and science!» деп жауап беруге болады."
+      },
+      kk: {
+        words: [
+          { word: "Зерттеуші", trans: "Исследователь / Researcher", ex: "Жас зерттеуші ғарышты бақылады." },
+          { word: "Шабыт", trans: "Вдохновение / Inspiration", ex: "Кітап оқу маған шабыт береді." },
+          { word: "Ынтымақ", trans: "Единство / Harmony", ex: "Ынтымақ бар жерде табыс бар." }
+        ],
+        quiz: { q: "«Шабыт» сөзі нені білдіреді?", opts: ["Шығармашылық құлшыныс", "Суық ауа райы", "Ескі зат"], ans: 0 },
+        dialogPrompt: "AI: Сәлем! Бүгін қандай жаңа сөз үйрендің?",
+        dialogSample: "Керемет! Жаңа сөздерді сөйлем ішінде қолданып жүр."
+      },
+      ru: {
+        words: [
+          { word: "Открытие", trans: "Жаңалық ашу / Discovery", ex: "Наука начинается с открытия." },
+          { word: "Воображение", trans: "Қиял / Imagination", ex: "Воображение помогает создавать истории." },
+          { word: "Дружба", trans: "Достық / Friendship", ex: "Настоящая дружба поддерживает в трудную минуту." }
+        ],
+        quiz: { q: "Что означает слово «Воображение»?", opts: ["Қиял / фантазия", "Скорость", "Тишина"], ans: 0 },
+        dialogPrompt: "AI: Привет! Какая твоя любимая книга или тема?",
+        dialogSample: "Отличный ответ! Попробуй составить ещё одно предложение на русском языке."
+      }
+    };
+
+    function renderLanguageLesson() {
+      const target = document.getElementById("learnLangTarget").value;
+      const data = LANG_DATA[target] || LANG_DATA.en;
+      document.getElementById("wordsLearnedBadge").textContent = `Үйренген сөздер: ${state.wordsLearned}`;
+
+      document.getElementById("langCardsContainer").innerHTML = data.words.map(w => `
+        <div class="feature-card">
+          <div>
+            <h4 style="margin-bottom:4px;">${w.word}</h4>
+            <div style="color:var(--muted); font-size:0.9em;">${w.trans}</div>
+            <p style="font-size:0.88em; margin-top:8px;"><em>${w.ex}</em></p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn sm" onclick="speakString('${w.word}')">🔊 Тыңдау</button>
+            <button class="btn sm mint" onclick="learnWordPlus()">+ Үйрендім</button>
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("langQuizPrompt").textContent = data.quiz.q;
+      const fb = document.getElementById("langQuizFeedback");
+      fb.className = "notice";
+      document.getElementById("langQuizOptions").innerHTML = data.quiz.opts.map((o, i) => `
+        <button class="btn" onclick="checkLangQuiz(${i}, ${data.quiz.ans})">${o}</button>
+      `).join("");
+
+      document.getElementById("langDialogPrompt").textContent = data.dialogPrompt;
+    }
+
+    function learnWordPlus() {
+      state.wordsLearned += 1;
+      saveState();
+      renderLanguageLesson();
+      renderGrowthMap();
+    }
+
+    function checkLangQuiz(i, ans) {
+      const fb = document.getElementById("langQuizFeedback");
+      if (i === ans) {
+        state.wordsLearned += 1;
+        saveState();
+        fb.className = "notice show good";
+        fb.textContent = "Дұрыс! Тамаша нәтиже!";
+        renderLanguageLesson();
+        renderGrowthMap();
+      } else {
+        fb.className = "notice show gentle";
+        fb.textContent = "Қателеспейтін адам жоқ! Жоғарыдағы сөздік карточкаларға бір қарап, қайта таңдап көр.";
+      }
+    }
+
+    function checkLangDialog() {
+      const target = document.getElementById("learnLangTarget").value;
+      const val = document.getElementById("langDialogInput").value.trim();
+      const fb = document.getElementById("langDialogFeedback");
+      if (!val) return;
+      fb.className = "notice show good";
+      fb.textContent = `Жарайсың! Сенің жауабың: «${val}». ${LANG_DATA[target].dialogSample}`;
+    }
+
+    /* =====================================================================
+       9. INTERESTS WORLD
+    ===================================================================== */
+    function renderInterests() {
+      const chips = document.getElementById("interestChips");
+      chips.innerHTML = INTEREST_LIST.map(item => {
+        const sel = state.interests.includes(item.id);
+        const label = item[state.lang] || item.kk;
+        return `<button type="button" class="chip ${sel ? "selected" : ""}" onclick="toggleInterest('${item.id}')">${item.icon} ${label}</button>`;
+      }).join("");
+
+      const feed = document.getElementById("interestFeed");
+      const chosen = INTEREST_LIST.filter(x => state.interests.includes(x.id));
+      if (!chosen.length) {
+        feed.innerHTML = `<div class="panel">Қызығушылық бағыттарын таңдасаң, жеке ұсыныстар осында шығады.</div>`;
+        return;
+      }
+
+      feed.innerHTML = chosen.map(item => `
+        <div class="panel">
+          <span class="badge blue">${item.icon} ${item[state.lang] || item.kk}</span>
+          <p style="margin-top:10px;"><strong>Қызықты дерек:</strong> ${item.fact}</p>
+          <p style="color:var(--muted);">${item.exp}</p>
+          <button class="btn sm primary" onclick="document.getElementById('gameTopicInput').value='${item.kk}'; switchView('game');">🎮 Осы тақырыпта ойын ашу</button>
+        </div>
+      `).join("");
+    }
+
+    function toggleInterest(id) {
+      if (state.interests.includes(id)) {
+        state.interests = state.interests.filter(x => x !== id);
+      } else {
+        state.interests.push(id);
+      }
+      saveState();
+      renderInterests();
+    }
+
+    /* =====================================================================
+       10. CABINET, GROWTH TREE & PRIVATE SITUATION
+    ===================================================================== */
+    function openCabinetTab(tab) {
+      document.querySelectorAll(".cab-tab").forEach(b => b.classList.toggle("active", b.dataset.ctab === tab));
+      document.querySelectorAll(".cab-pane").forEach(p => p.style.display = "none");
+      document.getElementById("cab-" + tab).style.display = "block";
+    }
+
+    function loadProfileForm() {
+      document.getElementById("profName").value = state.user.name || "";
+      document.getElementById("profEmail").value = state.user.email || "";
+      document.getElementById("profAge").value = state.user.ageGroup || "10-13";
+      document.getElementById("apiProxyUrlInput").value = state.proxyUrl || "";
+    }
+
+    function saveUserProfile() {
+      state.user.name = document.getElementById("profName").value.trim() || "Жас Зерттеуші";
+      state.user.email = document.getElementById("profEmail").value.trim();
+      state.user.ageGroup = document.getElementById("profAge").value;
+      saveState();
+      applyVisualPrefs();
+      applyTranslations();
+      renderTeacher();
+      const n = document.getElementById("profSavedNotice");
+      n.classList.add("show");
+      setTimeout(() => n.classList.remove("show"), 2500);
+    }
+
+    function renderGrowthMap() {
+      const totalLeaves = state.doneCount + state.gamesCompleted * 3 + state.portfolio.length * 2 + state.missionNotes.length + Math.floor(state.wordsLearned / 2);
+      const leafCount = Math.min(18, Math.max(2, totalLeaves));
+
+      let leavesSvg = "";
+      for (let i = 0; i < leafCount; i++) {
+        const angle = (i / leafCount) * Math.PI * 2;
+        const cx = 150 + Math.cos(angle) * (42 + (i % 3) * 16);
+        const cy = 95 + Math.sin(angle) * (34 + (i % 2) * 14);
+        const fill = i % 3 === 0 ? "#34d399" : i % 3 === 1 ? "#10b981" : "#f59e0b";
+        leavesSvg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="11" fill="${fill}" opacity="0.9"/>`;
+      }
+
+      document.getElementById("growthTreeSvg").innerHTML = `
+        <svg viewBox="0 0 300 210" width="260" role="img" aria-label="Менің даму ағашым">
+          <ellipse cx="150" cy="192" rx="85" ry="12" fill="rgba(52, 211, 153, 0.25)"/>
+          <rect x="141" y="105" width="18" height="86" rx="6" fill="#92400e"/>
+          <path d="M150 130 L115 100 M150 120 L185 92" stroke="#92400e" stroke-width="7" stroke-linecap="round"/>
+          ${leavesSvg}
+        </svg>
+      `;
+
+      document.getElementById("treeStatsText").textContent = `Ағаштағы жапырақтар мен гүлдер: ${totalLeaves} 🌿`;
+
+      document.getElementById("growthStatsList").innerHTML = `
+        <p>• Орындалған оқу қадамдары: <strong>${state.doneCount}</strong></p>
+        <p>• Аяқталған 5 кезеңдік ойындар: <strong>${state.gamesCompleted}</strong></p>
+        <p>• Шығармашылық жұмыстар: <strong>${state.portfolio.length}</strong></p>
+        <p>• Күннің миссиялары: <strong>${state.missionNotes.length}</strong></p>
+        <p>• Үйренген сөздер: <strong>${state.wordsLearned}</strong></p>
+      `;
+
+      const badges = [];
+      if (state.doneCount >= 1) badges.push("🌱 Алғашқы қадам");
+      if (state.gamesCompleted >= 1) badges.push("🏆 Ойын зерттеушісі");
+      if (state.portfolio.length >= 1) badges.push("🎨 Жас автор");
+      if (state.missionNotes.length >= 1) badges.push("🌟 Күн батыры");
+      if (state.wordsLearned >= 3) badges.push("🗣️ Полиглот бастамасы");
+
+      document.getElementById("achievementsChips").innerHTML = badges.map(b => `<span class="badge mint">${b}</span>`).join("");
+    }
+
+    function saveSituationNote(askAi) {
+      const cat = document.getElementById("sitCategory").value;
+      const mood = document.getElementById("sitMood").value;
+      const text = document.getElementById("sitNoteInput").value.trim();
+      if (!text) return;
+
+      state.situations.unshift({
+        id: Date.now(),
+        cat,
+        mood,
+        text,
+        date: new Date().toLocaleString()
+      });
+      document.getElementById("sitNoteInput").value = "";
+      saveState();
+      renderSituations();
+
+      if (askAi) {
+        const box = document.getElementById("sitAiResponse");
+        box.className = "notice show gentle";
+        const isCritical = cat === "bullying" || mood === "needHelp" || /қорқыт|ұр|буллинг|қиын|жалғыз/i.test(text);
+        box.textContent = isCritical
+          ? "💜 Сенің сезімің маңызды және сен жалғыз емессің. Мұндай жағдайды іште сақтама: өзің сенетін ересек адаммен (ата-анаңмен, мұғаліммен немесе мектеп психологымен) міндетті түрде сөйлес. Қазақстанда балалар мен отбасыларға арналған 111 байланыс орталығы тәулік бойы тегін көмектеседі."
+          : "💜 Ойыңды ашық жазғаның өте дұрыс. Терең тыныс алып, мәселені шағын қадамдарға бөліп көр. Қажет болса, ата-анаңмен немесе жақын адамыңмен бөлісу — күштіліктің белгісі.";
+      }
+    }
+
+    function renderSituations() {
+      const box = document.getElementById("sitHistoryList");
+      if (!state.situations.length) {
+        box.innerHTML = `<p style="color:var(--muted);">Құпия жазбалар тізімі бос.</p>`;
+        return;
+      }
+      box.innerHTML = state.situations.map(s => `
+        <div class="lesson-card">
+          <div style="display:flex; justify-content:space-between;">
+            <strong>${s.cat.toUpperCase()} (${s.mood})</strong>
+            <span class="sub-caption">${s.date}</span>
+          </div>
+          <p style="margin-bottom:0;">${s.text}</p>
+        </div>
+      `).join("");
+    }
+
+    function saveProxyUrl() {
+      state.proxyUrl = document.getElementById("apiProxyUrlInput").value.trim();
+      saveState();
+      alert("API прокси мекенжайы сақталды.");
+    }
+
+    function exportUserData() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "mixx-profile-data.json";
+      a.click();
+    }
+
+    function clearAllPlatformData() {
+      if (!confirm("Барлық сақталған деректерді өшіруге сенімдісің бе?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state = structuredClone(initialState);
+      initAll();
+    }
+
+    /* =====================================================================
+       11. AI ASSISTANT 24/7 (TEXT + IMAGE + VOICE + AGE ADAPTATION)
+    ===================================================================== */
+    let attachedImageName = "";
+    let recognition = null;
+
+    function toggleAiDrawer(forceState) {
+      const drawer = document.getElementById("aiDrawer");
+      const open = typeof forceState === "boolean" ? forceState : !drawer.classList.contains("open");
+      drawer.classList.toggle("open", open);
+      renderAiChat();
+    }
+
+    function renderAiChat() {
+      const box = document.getElementById("aiMessagesBox");
+      box.innerHTML = state.chatHistory.map(m => `
+        <div class="msg ${m.role}">${m.text}</div>
+      `).join("");
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearAiChat() {
+      state.chatHistory = [{ role: "bot", text: "Чат тарихы тазартылды. Жаңа сұрағыңды қоя бер!" }];
+      saveState();
+      renderAiChat();
+    }
+
+    function handleAiImageSelect(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      attachedImageName = file.name;
+      document.getElementById("imageFileName").textContent = `📷 ${file.name}`;
+      document.getElementById("imagePreviewBar").style.display = "flex";
+    }
+
+    function clearAttachedImage() {
+      attachedImageName = "";
+      document.getElementById("aiImageInput").value = "";
+      document.getElementById("imagePreviewBar").style.display = "none";
+    }
+
+    function startVoiceInput() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const bar = document.getElementById("voiceControlsBar");
+      const status = document.getElementById("voiceStatusText");
+      bar.style.display = "block";
+
+      if (!SpeechRec) {
+        status.textContent = "Бұл браузерде дауыс тану қолжетімсіз. Сұрағыңды мәтінмен жаз.";
+        return;
+      }
+
+      if (recognition) { try { recognition.stop(); } catch {} }
+      recognition = new SpeechRec();
+      recognition.lang = state.lang === "ru" ? "ru-RU" : state.lang === "en" ? "en-US" : "kk-KZ";
+      recognition.interimResults = false;
+      status.textContent = "🎤 Сөйле, тыңдап тұрмын...";
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("aiTextInput").value = transcript;
+        status.textContent = `✅ Танылды: «${transcript}» — тексеріп, жіберу батырмасын бас.`;
+      };
+
+      recognition.onerror = () => {
+        status.textContent = "Дауыс анық естілмеді. Қайта басып көр немесе мәтінмен жаз.";
+      };
+
+      recognition.start();
+    }
+
+    function stopVoiceInput() {
+      if (recognition) { try { recognition.stop(); } catch {} }
+    }
+
+    function cancelVoiceInput() {
+      stopVoiceInput();
+      document.getElementById("aiTextInput").value = "";
+      document.getElementById("voiceControlsBar").style.display = "none";
+    }
+
+    function buildAgeAdaptedReply(userText, mode = "normal") {
+      const age = state.user.ageGroup;
+      const prefix = age === "6-9"
+        ? "🌟 Қарапайым тілмен айтқанда: "
+        : age === "14-17" || age === "18+"
+        ? "📘 Талдау: "
+        : "💡 Түсіндірме: ";
+
+      if (attachedImageName) {
+        return `${prefix}«${attachedImageName}» суреті тіркелді. Мен суретті ойдан болжамаймын: нақты есепті немесе мәтінді талдау үшін сыртқы Vision AI сервері қосылуы керек (Жеке кабинет -> Құпиялық / API бөлімі), немесе суреттегі есеп мәтінін осында жазып жібер — бірден шешу жолын көрсетемін!`;
+      }
+
+      if (/буллинг|қорқыт|ұр|жыла|көмек керек/i.test(userText)) {
+        return "💜 Сен қауіпсіздікте болуға лайықсың. Егер біреу ренжітсе немесе қорқытса, міндетті түрде ата-анаңа, сенімді мұғалімге немесе мектеп психологына айт. Қазақстанда 111 сенім телефоны тәулік бойы көмектеседі.";
+      }
+
+      const mathMatch = userText.replace(/\s+/g, "").match(/^(\d+)([+\-*/])(\d+)$/);
+      if (mathMatch) {
+        const a = Number(mathMatch[1]), op = mathMatch[2], b = Number(mathMatch[3]);
+        const res = op === "+" ? a + b : op === "-" ? a - b : op === "*" ? a * b : b !== 0 ? (a / b).toFixed(2) : "нөлге бөлуге болмайды";
+        return `${prefix}${a} ${op} ${b} есебін шешу:\n1-қадам: Амалды анықтаймыз (${op}).\n2-қадам: Есептейміз -> Жауабы: ${res}.`;
+      }
+
+      if (mode === "short") return `${prefix}Негізгі ой: «${userText}» тақырыбын түсіну үшін ең басты ұғымды анықтап, 1 мысалмен бекіту жеткілікті.`;
+      if (mode === "deep") return `${prefix}«${userText}» бойынша тереңірек шолу:\n1) Негізгі себебі мен маңызы;\n2) Күнделікті өмірмен байланысы;\n3) Қорытынды тексеру сұрағы.`;
+      if (mode === "example") return `${prefix}Мысал: Мұны күнделікті өмірдегі таныс затпен (мысалы, бөлінген алма немесе күн сәулесі) салыстырып елестетсең, бірден түсінікті болады.`;
+      if (mode === "task") return `${prefix}Шағын тапсырма: «${userText}» тақырыбы бойынша 1 сұрақ құрастырып, жауабын өзің тексеріп көр!`;
+      if (mode === "rephrase") return `${prefix}Басқа сөзбен айтқанда: күрделі ережені 3 қысқа қадамға бөліп орындайық.`;
+
+      return `${prefix}«${userText}» сұрағы бойынша көмектесуге дайынмын! Төмендегі «Қысқаша», «Мысал келтір» немесе «Маған тапсырма бер» батырмалары арқылы жауапты өзіңе ыңғайлы форматқа ауыстыра аласың.`;
+    }
+
+    async function sendAiMessage(customMode = "normal") {
+      const input = document.getElementById("aiTextInput");
+      const text = input.value.trim();
+      if (!text && !attachedImageName) return;
+
+      const userLabel = attachedImageName ? `${text || "Суретті талда"} [📷 ${attachedImageName}]` : text;
+      state.chatHistory.push({ role: "user", text: userLabel });
+      input.value = "";
+      document.getElementById("voiceControlsBar").style.display = "none";
+
+      let reply = "";
+      if (state.proxyUrl) {
+        try {
+          const resp = await fetch(state.proxyUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text, lang: state.lang, ageGroup: state.user.ageGroup })
+          });
+          const data = await resp.json();
+          reply = data.reply || buildAgeAdaptedReply(text, customMode);
+        } catch {
+          reply = "⚠️ Сыртқы AI серверіне қосылу мүмкін болмады. Жергілікті көмекші режимі қосылды:\n" + buildAgeAdaptedReply(text, customMode);
+        }
+      } else {
+        reply = buildAgeAdaptedReply(text, customMode);
+      }
+
+      clearAttachedImage();
+      state.chatHistory.push({ role: "bot", text: reply });
+      saveState();
+      renderAiChat();
+    }
+
+    function quickAiAction(mode) {
+      const lastUser = [...state.chatHistory].reverse().find(m => m.role === "user");
+      const topic = lastUser ? lastUser.text : "бүгінгі сабақ";
+      const reply = buildAgeAdaptedReply(topic, mode);
+      state.chatHistory.push({ role: "bot", text: reply });
+      saveState();
+      renderAiChat();
+    }
+
+    function speakLastBotMessage() {
+      const lastBot = [...state.chatHistory].reverse().find(m => m.role === "bot");
+      if (lastBot) speakString(lastBot.text);
+    }
+
+    function sendFromHomeAi() {
+      const homeInput = document.getElementById("homeAiInput");
+      const val = homeInput.value.trim();
+      if (!val) return;
+      homeInput.value = "";
+      toggleAiDrawer(true);
+      document.getElementById("aiTextInput").value = val;
+      sendAiMessage();
+    }
+
+    /* =====================================================================
+       12. INIT
+    ===================================================================== */
+    function initAll() {
+      applyVisualPrefs();
+      applyTranslations();
+      renderMission();
+      renderStudyAll();
+      renderGameWorld();
+      renderPortfolio();
+      renderLanguageLesson();
+      renderInterests();
+      loadProfileForm();
+      renderGrowthMap();
+      renderSituations();
+      renderAiChat();
+    }
+
+    initAll();
+  </script>
+</body>
+</html>
